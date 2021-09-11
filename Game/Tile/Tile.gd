@@ -23,11 +23,11 @@ onready var grid: TileMap = get_parent()
 var grid_pos: Vector2
 var tile_type: int
 var directions = []
-var item = null
+var item: String
 
 func _ready():
-	area2D.connect("mouse_entered", self, "on_mouse_update")
-	area2D.connect("mouse_exited", self, "on_mouse_update")
+	area2D.connect("mouse_entered", self, "on_mouse_enter")
+	area2D.connect("mouse_exited", self, "on_mouse_exit")
 
 # DEBUG: Lets me see the grid underneath the tile nodes
 func _unhandled_input(event):
@@ -35,7 +35,7 @@ func _unhandled_input(event):
         if event.pressed and event.scancode == KEY_SPACE:
             visible = !visible
 
-func initialize(rotation_in):
+func initialize(rotation_in, item_in = null):
 	# Grid pos & Tile type
 	grid_pos = grid.world_to_map(position)
 	tile_type = grid.get_cell(grid_pos.x, grid_pos.y)
@@ -92,6 +92,17 @@ func initialize(rotation_in):
 				90: directions = [1,1,0,1]
 				180: directions = [1,1,1,0]
 				270: directions = [0,1,1,1]
+	
+	# Item
+	if item_in:
+		item = item_in[0]
+		item_sprite.texture = item_in[1]
+	
+	tile_info.update()
 
-#func on_mouse_update():
-#	tile_info.toggle()
+func on_mouse_enter():
+	if tile_info.has_object():
+		tile_info.show_info()
+
+func on_mouse_exit():
+	tile_info.hide_info()

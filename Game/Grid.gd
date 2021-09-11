@@ -65,5 +65,8 @@ func initialize_tiles(tile_rotations_in = null):
 			
 	# Initialize Children: Pass in tile rotation and item
 	for i in get_child_count():
-		get_child(i).initialize(tile_rotations[i])
-
+		var tile_item = null
+		for category in ItemManager.tile_items:
+			for item in category:
+				if i == item[1]: tile_item = item[0]
+		get_child(i).initialize(tile_rotations[i], tile_item)

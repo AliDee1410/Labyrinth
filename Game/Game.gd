@@ -5,12 +5,14 @@ onready var grid = $Board/Grid
 onready var action_tile = $Board/ActionTile
 
 func _ready():
+	randomize()
 	loading_screen.visible = true
 	if get_tree().is_network_server():
 		
 		# Setup MY game
 		GameManager.start_game()
 		grid.initialize()
+		ItemManager.initialize()
 		grid.initialize_tiles()
 		action_tile.initialize()
 		# Hide Loading Screen
@@ -19,6 +21,7 @@ func _ready():
 		var data = {}
 		data["Players"] = GameManager.players
 		data["Grid Tiles"] = grid.tiles
+		data["Tile Items"] = ItemManager.tile_items
 		data["Tile Rotations"] = grid.tile_rotations
 		data["Action Tile"] = action_tile.tile_type
 		# Tell clients to setup THEIR game using the data above (syncing)
@@ -28,6 +31,7 @@ func _ready():
 remote func initialize_game(data):
 	GameManager.start_game(data["Players"])
 	grid.initialize(data["Grid Tiles"])
+	ItemManager.initialize(data["Tile Items"])
 	grid.initialize_tiles(data["Tile Rotations"])
 	action_tile.initialize(data["Action Tile"])
 	hide_loading_screen()

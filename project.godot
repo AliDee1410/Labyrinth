@@ -24,6 +24,7 @@ config/icon="res://icon.png"
 Save="*res://Save.gd"
 Network="*res://Network.gd"
 GameManager="*res://Game/GameManager.gd"
+ItemManager="*res://Game/ItemManager.gd"
 Utils="*res://Utils.gd"
 
 [display]
