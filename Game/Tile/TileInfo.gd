@@ -6,12 +6,13 @@ onready var container = $Container
 
 # Fields
 var enabled = false
+var objects = []
 
 func _process(delta):
 	if enabled: global_position = get_global_mouse_position()
 
 func show_info():
-	container.frame = get_object_count() - 1
+	container.frame = objects.size() - 1
 	visible = true
 	enabled = true
 
@@ -20,14 +21,12 @@ func hide_info():
 	enabled = false
 
 func has_object() -> bool:
-	if get_object_count() > 0: return true
+	if objects.size() > 0: return true
 	else: return false
 
-func get_object_count() -> int:
-	var count = 0
-	for object in container.get_children():
-		if object.texture != null: count += 1
-	return count
-
-func update():
-	container.get_child(0).texture = tile.item_sprite.texture
+func update_tile_info():
+	objects.clear()
+	if tile.item: objects.append(tile.item[1])
+	for player in tile.players: objects.append(player[1])
+	for i in range(objects.size()):
+		container.get_child(i).texture = objects[i]

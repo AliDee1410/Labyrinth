@@ -11,10 +11,12 @@ const TILE_TEXTURES = {
 	"Home-Green": preload("res://Assets/Tiles/Home-Green.png"),
 	"Home-Yellow": preload("res://Assets/Tiles/Home-Yellow.png")
 }
+# DEBUG: Texture not made yet. Using "Yellow Player" texture for now
+const multi_object_texture = preload("res://Assets/Players/Player-Yellow.png")
 
 # Node/Scene References
 onready var sprite = $Sprite
-onready var item_sprite = $ItemSprite
+onready var object_sprite = $ObjectSprite
 onready var tile_info = $TileInfo
 onready var area2D = $Area2D
 onready var grid: TileMap = get_parent()
@@ -23,7 +25,8 @@ onready var grid: TileMap = get_parent()
 var grid_pos: Vector2
 var tile_type: int
 var directions = []
-var item: String
+var item
+var players = [] # Player = [id, texture]
 
 func _ready():
 	area2D.connect("mouse_entered", self, "on_mouse_enter")
@@ -94,11 +97,10 @@ func initialize(rotation_in, item_in = null):
 				270: directions = [0,1,1,1]
 	
 	# Item
-	if item_in:
-		item = item_in[0]
-		item_sprite.texture = item_in[1]
+	if item_in: item = item_in
 	
-	tile_info.update()
+	# Update Tile
+	update_tile()
 
 func on_mouse_enter():
 	if tile_info.has_object():
@@ -106,3 +108,12 @@ func on_mouse_enter():
 
 func on_mouse_exit():
 	tile_info.hide_info()
+
+func update_tile():
+	if item:
+		object_sprite.texture = item[1]
+		if players.size() > 0: object_sprite.texture = multi_object_texture
+	elif players.size() > 0:
+		object_sprite.texture = players[0][1]
+		if players.size() > 1: object_sprite.texture = multi_object_texture
+	tile_info.update_tile_info()
