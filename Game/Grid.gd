@@ -2,28 +2,29 @@ extends TileMap
 
 # Constants & Enums
 enum TileTypes { STRAIGHT, CORNER, JUNCTION, IMMOVEABLE, HOME, DISABLED_HOME  }
-const rotations = [0,90,180,270]
+const TILE_ROTATIONS = [0,90,180,270]
+const MOVEABLE_TILES = [
+	0,0,0,0,0,0,0,0,0,0,0,0,
+	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+	2,2,2,2,2,2
+]
 
 # Node/Scene References
 var tile_scene = preload("res://Game/Tile/Tile.tscn")
 
 # Fields
-onready var num_players = 2
-var moveable_tiles = [
-	0,0,0,0,0,0,0,0,0,0,0,0,
-	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-	2,2,2,2,2,2
-]
-var tiles = []
-var tile_rotations = []
+onready var num_players = 2 # TODO: Set to Network.players.size()
+var tiles = [] # List containing other lists (rows) of tile ids for tiles on the grid
+var tile_rotations = [] # List of random rotations for tiles on the grid, in order
+var action_tile: int # Tile id for action tile (tile left over after grid init)
 
 func initialize(tiles_in = null):
 	if tiles_in: tiles = tiles_in
-	else: tiles = create_tiles()
-	place_tiles()
+	else: create_tiles()
+	set_cells()
 	
 func create_tiles():
-	var tiles_out = []
+	var moveable_tiles = MOVEABLE_TILES.duplicate()
 	for y in range(7):
 		var row = []
 		for x in range(7):
@@ -47,21 +48,22 @@ func create_tiles():
 				tile = Utils.choose(moveable_tiles)
 				moveable_tiles.erase(tile)
 			row.append(tile)
-		tiles_out.append(row)
-	print(moveable_tiles)
-	return tiles_out
+		tiles.append(row)
+	action_tile = moveable_tiles.pop_front()
 
-func place_tiles():
+func set_cells():
 	for y in range(7):
 		for x in range(7):
 			set_cell(x, y, tiles[y][x])
 
 func initialize_tiles(tile_rotations_in = null):
-	if tile_rotations_in:
-		tile_rotations = tile_rotations_in
+	# Get Rotations
+	if tile_rotations_in: tile_rotations = tile_rotations_in
 	else:
 		for i in range(get_child_count()):
-			tile_rotations.append(Utils.choose(rotations))
+			tile_rotations.append(Utils.choose(TILE_ROTATIONS))
+			
+	# Initialize Children: Pass in tile rotation and item
 	for i in get_child_count():
 		get_child(i).initialize(tile_rotations[i])
 

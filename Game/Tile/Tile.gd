@@ -2,7 +2,7 @@ extends Node2D
 
 # Constants & Enums
 enum Directions { UP, RIGHT, DOWN, LEFT }
-const tile_textures = {
+const TILE_TEXTURES = {
 	"Straight": preload("res://Assets/Tiles/Path-Straight.png"),
 	"Corner" : preload("res://Assets/Tiles/Path-Corner.png"),
 	"Junction" : preload("res://Assets/Tiles/Path-Junction.png"),
@@ -42,17 +42,17 @@ func initialize(rotation_in):
 	
 	# Texture
 	match tile_type:
-		grid.TileTypes.STRAIGHT: sprite.texture = tile_textures["Straight"]
-		grid.TileTypes.CORNER: sprite.texture = tile_textures["Corner"]
-		grid.TileTypes.JUNCTION: sprite.texture = tile_textures["Junction"]
+		grid.TileTypes.STRAIGHT: sprite.texture = TILE_TEXTURES["Straight"]
+		grid.TileTypes.CORNER: sprite.texture = TILE_TEXTURES["Corner"]
+		grid.TileTypes.JUNCTION: sprite.texture = TILE_TEXTURES["Junction"]
 		grid.TileTypes.HOME:
 			match grid_pos:
-				Vector2(0,0): sprite.texture = tile_textures["Home-Red"]
-				Vector2(6,6): sprite.texture = tile_textures["Home-Blue"]
-				Vector2(0,6): sprite.texture = tile_textures["Home-Green"]
-				Vector2(6,0): sprite.texture = tile_textures["Home-Yellow"]
-		grid.TileTypes.IMMOVEABLE: sprite.texture = tile_textures["Junction"]
-		grid.TileTypes.DISABLED_HOME: sprite.texture = tile_textures["Corner"]
+				Vector2(0,0): sprite.texture = TILE_TEXTURES["Home-Red"]
+				Vector2(6,6): sprite.texture = TILE_TEXTURES["Home-Blue"]
+				Vector2(0,6): sprite.texture = TILE_TEXTURES["Home-Green"]
+				Vector2(6,0): sprite.texture = TILE_TEXTURES["Home-Yellow"]
+		grid.TileTypes.IMMOVEABLE: sprite.texture = TILE_TEXTURES["Junction"]
+		grid.TileTypes.DISABLED_HOME: sprite.texture = TILE_TEXTURES["Corner"]
 	
 	# Rotation
 	match tile_type:

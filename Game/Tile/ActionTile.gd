@@ -18,7 +18,7 @@ func initialize(type_in = null):
 	# Tile type
 	if type_in: tile_type = type_in
 	else:
-		tile_type = grid.moveable_tiles.pop_front()
+		tile_type = grid.action_tile
 	
 	# Texture
 	match tile_type:
