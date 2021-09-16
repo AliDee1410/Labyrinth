@@ -24,50 +24,66 @@ const ITEMS = [
 	["Triangle-Orange", preload("res://Assets/Items/Item-Triangle-Orange.png")],
 	["Triangle-Pink", preload("res://Assets/Items/Item-Triangle-Pink.png")],
 	["Triangle-Red", preload("res://Assets/Items/Item-Triangle-Red.png")],
-	["Triangle-Yellow", preload("res://Assets/Items/Item-Triangle-Yellow.png")],
+	["Triangle-Yellow", preload("res://Assets/Items/Item-Triangle-Yellow.png")]
 ]
 const ITEMS_PER_PLAYER = 6
 
 onready var num_players = 2 # TODO: Set to Network.players.size()
 var tile_items = [] # List of lists containing 6 items for each player
 
-func initialize(items_in = null, indexes_in = null):
+func initialize(items_in = null):
 	# Get Items
 	if items_in: tile_items = items_in
 	else:
-		var items = ITEMS.duplicate()
-		var tiles_with_items = [0,6,42,48] # These indexes are home tiles (they cannot have items!)
+		# These indexes are home tiles (they cannot have items!)
+		var item_poses = [Vector2(0,0), Vector2(6,6), Vector2(0,6), Vector2(6,0)]
+		var item_indexes = []
+		
 		
 		# Player Items
-		for i in range(num_players):
+		for p in range(num_players):
 			var player_items = []
-			for j in range(ITEMS_PER_PLAYER):
-				var item = Utils.choose(items)
-				var tile = randi() % 49
-				if tile in tiles_with_items:
-					while tile in tiles_with_items:
-						tile = randi() % 49
-				tiles_with_items.append(tile)
-				player_items.append([item, tile])
-				items.erase(item)
+			for i in range(ITEMS_PER_PLAYER):
+				
+				var item_index = randi() % ITEMS.size()
+				if item_index in item_indexes:
+					while item_index in item_indexes:
+						item_index = randi() % ITEMS.size()
+				item_indexes.append(item_index)
+				
+				var item_pos = Vector2(randi() % 7, randi() % 7)
+				if item_pos in item_poses:
+					while item_pos in item_poses:
+						item_pos = Vector2(randi() % 7, randi() % 7)
+				item_poses.append(item_pos)
+				
+				player_items.append([item_index, item_pos])
 			tile_items.append(player_items)
 		
 		# Other Items
 		var other_items = []
-		for item in items:
-			var tile = randi() % 49
-			if tile in tiles_with_items:
-				while tile in tiles_with_items:
-					tile = randi() % 49
-			tiles_with_items.append(tile)
-			other_items.append([item, tile])
+		for i in range(ITEMS.size() - item_indexes.size()):
+			
+			var item_index = randi() % ITEMS.size()
+			if item_index in item_indexes:
+				while item_index in item_indexes:
+					item_index = randi() % ITEMS.size()
+			item_indexes.append(item_index)
+				
+			var item_pos = Vector2(randi() % 7, randi() % 7)
+			if item_pos in item_poses:
+				while item_pos in item_poses:
+					item_pos = Vector2(randi() % 7, randi() % 7)
+			item_poses.append(item_pos)
+			
+			other_items.append([item_index, item_pos])
 		tile_items.append(other_items)
 	
 	# DEBUG: Print Items
-	for p in range(num_players):
-		print("Player " + str(p+1) + " Items")
-		for item in tile_items[p]:
-			print(item)
-	print("Other Items")
-	for item in tile_items[num_players]:
-		print(item)
+#	for p in range(num_players):
+#		print("Player " + str(p+1) + " Items")
+#		for item in tile_items[p]:
+#			print(item)
+#	print("Other Items")
+#	for item in tile_items[num_players]:
+#		print(item)

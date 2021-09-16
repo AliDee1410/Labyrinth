@@ -19,29 +19,29 @@ onready var sprite = $Sprite
 onready var object_sprite = $ObjectSprite
 onready var tile_info = $TileInfo
 onready var area2D = $Area2D
-onready var grid: TileMap = get_parent()
+onready var grid = get_parent().get_parent()
 
 # Fields
 var grid_pos: Vector2
 var tile_type: int
-var directions = []
 var item
+var directions = []
 var players = [] # Player = [id, texture]
 
 func _ready():
 	area2D.connect("mouse_entered", self, "on_mouse_enter")
 	area2D.connect("mouse_exited", self, "on_mouse_exit")
 
-# DEBUG: Lets me see the grid underneath the tile nodes
-func _unhandled_input(event):
-	if event is InputEventKey:
-        if event.pressed and event.scancode == KEY_SPACE:
-            visible = !visible
-
-func initialize(rotation_in, item_in = null):
-	# Grid pos & Tile type
-	grid_pos = grid.world_to_map(position)
-	tile_type = grid.get_cell(grid_pos.x, grid_pos.y)
+func initialize(pos_in, type_in, rotation_in, item_index_in = null):
+	# Grid pos & tile type
+	grid_pos = pos_in
+	tile_type = type_in
+	
+	# Rotation
+	sprite.rotation_degrees = rotation_in
+	
+	# Item
+	if item_index_in: item = ItemManager.ITEMS[item_index_in]
 	
 	# Texture
 	match tile_type:
@@ -56,25 +56,7 @@ func initialize(rotation_in, item_in = null):
 				Vector2(6,0): sprite.texture = TILE_TEXTURES["Home-Yellow"]
 		grid.TileTypes.IMMOVEABLE: sprite.texture = TILE_TEXTURES["Junction"]
 		grid.TileTypes.DISABLED_HOME: sprite.texture = TILE_TEXTURES["Corner"]
-	
-	# Rotation
-	match tile_type:
-		grid.TileTypes.STRAIGHT, grid.TileTypes.CORNER, grid.TileTypes.JUNCTION:
-			sprite.rotation_degrees = rotation_in
-		grid.TileTypes.IMMOVEABLE:
-			if grid_pos.x == 0: sprite.rotation_degrees = 180
-			elif grid_pos.y == 0: sprite.rotation_degrees = 270
-			elif grid_pos.y == 6: sprite.rotation_degrees = 90
-			else: match grid_pos:
-				Vector2(2,2): sprite.rotation_degrees = 180
-				Vector2(4,2): sprite.rotation_degrees = 270
-				Vector2(2,4): sprite.rotation_degrees = 90
-		grid.TileTypes.HOME, grid.TileTypes.DISABLED_HOME:
-			match grid_pos:
-				Vector2(0,0): sprite.rotation_degrees = 180
-				Vector2(0,6): sprite.rotation_degrees = 90
-				Vector2(6,0): sprite.rotation_degrees = 270
-	
+
 	# Directions
 	match tile_type:
 		grid.TileTypes.STRAIGHT:
@@ -96,9 +78,6 @@ func initialize(rotation_in, item_in = null):
 				180: directions = [1,1,1,0]
 				270: directions = [0,1,1,1]
 	
-	# Item
-	if item_in: item = item_in
-	
 	# Update Tile
 	update_tile()
 
@@ -111,9 +90,9 @@ func on_mouse_exit():
 
 func update_tile():
 	if item:
-		object_sprite.texture = item[1]
 		if players.size() > 0: object_sprite.texture = multi_object_texture
+		else: object_sprite.texture = item[1]
 	elif players.size() > 0:
-		object_sprite.texture = players[0][1]
 		if players.size() > 1: object_sprite.texture = multi_object_texture
+		else: object_sprite.texture = players[0][1]
 	tile_info.update_tile_info()
