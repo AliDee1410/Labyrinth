@@ -4,8 +4,6 @@ onready var player_name = $CenterContainer/VBoxContainer/EnterInfo/NameEdit
 onready var selected_ip = $CenterContainer/VBoxContainer/EnterInfo/IPEdit
 onready var selected_port = $CenterContainer/VBoxContainer/EnterInfo/PortEdit
 
-onready var connecting_screen = $CanvasLayer/ConnectingScreen
-
 func _ready():
 	player_name.text = Save.save_data["Player Name"]
 	selected_ip.text = Network.DEFAULT_IP
