@@ -1,7 +1,6 @@
 extends Node2D
 
 # Constants & Enums
-enum Directions { UP, RIGHT, DOWN, LEFT }
 const TILE_TEXTURES = {
 	"Straight": preload("res://Assets/Tiles/Path-Straight.png"),
 	"Corner" : preload("res://Assets/Tiles/Path-Corner.png"),
@@ -11,6 +10,7 @@ const TILE_TEXTURES = {
 	"Home-Green": preload("res://Assets/Tiles/Home-Green.png"),
 	"Home-Yellow": preload("res://Assets/Tiles/Home-Yellow.png")
 }
+
 # DEBUG: Texture not made yet. Using "Yellow Player" texture for now
 const multi_object_texture = preload("res://Assets/Players/Player-Yellow.png")
 
@@ -19,6 +19,7 @@ onready var sprite = $Sprite
 onready var object_sprite = $ObjectSprite
 onready var tile_info = $TileInfo
 onready var area2D = $Area2D
+
 onready var grid = get_parent().get_parent()
 
 # Fields
@@ -33,16 +34,14 @@ func _ready():
 	area2D.connect("mouse_exited", self, "on_mouse_exit")
 
 func initialize(pos_in, type_in, rotation_in, item_index_in = null):
-	# Grid pos & tile type
+	# Setup fields
 	grid_pos = pos_in
 	tile_type = type_in
-	
-	# Rotation
 	sprite.rotation_degrees = rotation_in
-	
-	# Item
 	if item_index_in: item = ItemManager.ITEMS[item_index_in]
-	
+	update_tile()
+
+func update_tile():
 	# Texture
 	match tile_type:
 		grid.TileTypes.STRAIGHT: sprite.texture = TILE_TEXTURES["Straight"]
@@ -78,8 +77,8 @@ func initialize(pos_in, type_in, rotation_in, item_index_in = null):
 				180: directions = [1,1,1,0]
 				270: directions = [0,1,1,1]
 	
-	# Update Tile
-	update_tile()
+	# Update Objects
+	update_objects()
 
 func on_mouse_enter():
 	if tile_info.has_object():
@@ -88,11 +87,49 @@ func on_mouse_enter():
 func on_mouse_exit():
 	tile_info.hide_info()
 
-func update_tile():
+func update_objects():
 	if item:
 		if players.size() > 0: object_sprite.texture = multi_object_texture
 		else: object_sprite.texture = item[1]
 	elif players.size() > 0:
 		if players.size() > 1: object_sprite.texture = multi_object_texture
 		else: object_sprite.texture = players[0][1]
+	else: object_sprite.texture = null
 	tile_info.update_tile_info()
+
+func move_tile(direction, new_tile = null, item_in = null):
+	var old_pos = position
+	
+	# Move tile
+	match direction:
+		grid.Directions.UP:
+			for i in range(32):
+				position.y -= 1
+				yield(Utils.create_timer(0.1), "timeout")
+		grid.Directions.RIGHT:
+			for i in range(32):
+				position.x += 1
+				yield(Utils.create_timer(0.1), "timeout")
+		grid.Directions.DOWN:
+			for i in range(32):
+				position.y += 1
+				yield(Utils.create_timer(0.1), "timeout")
+		grid.Directions.LEFT:
+			for i in range(32):
+				position.x -= 1
+				yield(Utils.create_timer(0.1), "timeout")
+	
+	# Fall off edge
+	if position.x == -16 or position.y == -16 or position.x == 240 or position.y == 240:
+		grid.action_tile.tile_type = tile_type
+		grid.action_tile.item = item
+		grid.action_tile.update_action_tile()
+	
+	# Reset position
+	position = old_pos
+	
+	# New info
+	tile_type = new_tile[0]
+	sprite.rotation_degrees = new_tile[1]
+	item = item_in
+	update_tile()

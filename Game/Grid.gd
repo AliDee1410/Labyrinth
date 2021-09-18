@@ -2,6 +2,7 @@ extends Node2D
 
 # Constants & Enums
 enum TileTypes { STRAIGHT, CORNER, JUNCTION, IMMOVEABLE, HOME, DISABLED_HOME  }
+enum Directions { UP, RIGHT, DOWN, LEFT }
 const TILE_ROTATIONS = [0,90,180,270]
 const MOVEABLE_TILES = [
 	0,0,0,0,0,0,0,0,0,0,0,0,
@@ -9,10 +10,12 @@ const MOVEABLE_TILES = [
 	2,2,2,2,2,2
 ]
 
+# Node References
+onready var action_tile = get_parent().get_node("ActionTile")
+
 # Fields
 onready var num_players = 2 # TODO: Set to Network.players.size()
 var tiles = [] # List containing other lists (rows) of tile ids for tiles on the grid
-var action_tile: int # Tile id for action tile (tile left over after grid init)
 
 func initialize(tiles_in = null):
 	if tiles_in: tiles = tiles_in
@@ -65,7 +68,7 @@ func create_tiles():
 				
 			row_tiles.append([tile_type, tile_rotation])
 		tiles.append(row_tiles)
-	action_tile = moveable_tiles.pop_front()
+	action_tile.tile_type = moveable_tiles.pop_front()
 
 func initialize_tiles():
 	for row in range(tiles.size()):
@@ -81,3 +84,46 @@ func initialize_tiles():
 					if pos.x == item_pos.x and pos.y == item_pos.y: tile_item = item_index
 			
 			get_child(row).get_child(column).initialize(pos, tile_type, tile_rotation, tile_item)
+
+func move_tiles(direction, line_index):
+	for i in range(7):
+		var row
+		var column
+		var n_row
+		var n_column
+		var end_index
+		match direction:
+			Directions.UP:
+				row = i
+				column = line_index
+				n_row = i+1
+				n_column = line_index
+				end_index = 6
+			Directions.RIGHT:
+				row = line_index
+				column = i
+				n_row = line_index
+				n_column = i-1
+				end_index = 0
+			Directions.DOWN:
+				row = i
+				column = line_index
+				n_row = i-1
+				n_column = line_index
+				end_index = 0
+			Directions.LEFT:
+				row = line_index
+				column = i
+				n_row = line_index
+				n_column = i+1
+				end_index = 6
+		var new_tile
+		var new_item
+		if i == end_index:
+			new_tile = [action_tile.tile_type, action_tile.sprite.rotation_degrees]
+			new_item = action_tile.item
+		else:
+			var neighbor = get_child(n_row).get_child(n_column)
+			new_tile = [neighbor.tile_type, neighbor.sprite.rotation_degrees]
+			new_item = neighbor.item
+		get_child(row).get_child(column).move_tile(direction, new_tile, new_item)

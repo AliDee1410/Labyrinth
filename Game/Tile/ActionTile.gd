@@ -8,20 +8,27 @@ const tile_textures = {
 }
 
 # Node/Scene References
-onready var sprite = $Sprite
 onready var grid: TileMap = get_parent().get_node("Grid")
+onready var sprite = $Sprite
+onready var object_sprite = $ObjectSprite
 
 # Fields
 var tile_type: int
+var item
 
 func initialize(type_in = null):
-	# Tile type
 	if type_in: tile_type = type_in
-	else:
-		tile_type = grid.action_tile
+	update_action_tile()
+
+func update_action_tile():
+	sprite.rotation_degrees = 0
 	
 	# Texture
 	match tile_type:
 		grid.TileTypes.STRAIGHT: sprite.texture = tile_textures["Straight"]
 		grid.TileTypes.CORNER: sprite.texture = tile_textures["Corner"]
 		grid.TileTypes.JUNCTION: sprite.texture = tile_textures["Junction"]
+	
+	# Item
+	if item: object_sprite.texture = item[1]
+	else: object_sprite.texture = null
