@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Arrow-Enabled.png-029fdbb526cb25f40da0a438ea1389c3.stex"
+path="res://.import/TileInfo-1.png-bac7bea91e9d222844e7e0b656d75913.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Arrow-Enabled.png"
-dest_files=[ "res://.import/Arrow-Enabled.png-029fdbb526cb25f40da0a438ea1389c3.stex" ]
+source_file="res://Assets/UI/TileInfo-1.png"
+dest_files=[ "res://.import/TileInfo-1.png-bac7bea91e9d222844e7e0b656d75913.stex" ]
 
 [params]
 

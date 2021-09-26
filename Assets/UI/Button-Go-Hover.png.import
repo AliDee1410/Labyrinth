@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TileInfo-1.png-5ad3cc57cb1158b3b5d6e59dedd25d3f.stex"
+path="res://.import/Button-Go-Hover.png-44c9609963bbc68339a4adc9d912688c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileInfo-1.png"
-dest_files=[ "res://.import/TileInfo-1.png-5ad3cc57cb1158b3b5d6e59dedd25d3f.stex" ]
+source_file="res://Assets/UI/Button-Go-Hover.png"
+dest_files=[ "res://.import/Button-Go-Hover.png-44c9609963bbc68339a4adc9d912688c.stex" ]
 
 [params]
 

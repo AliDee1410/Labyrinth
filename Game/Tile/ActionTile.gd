@@ -21,8 +21,6 @@ func initialize(type_in = null):
 	update_action_tile()
 
 func update_action_tile():
-	sprite.rotation_degrees = 0
-	
 	# Texture
 	match tile_type:
 		grid.TileTypes.STRAIGHT: sprite.texture = tile_textures["Straight"]

@@ -122,8 +122,11 @@ func move_tile(direction, new_tile = null, item_in = null):
 	# Fall off edge
 	if position.x == -16 or position.y == -16 or position.x == 240 or position.y == 240:
 		grid.action_tile.tile_type = tile_type
+		grid.action_tile.sprite.rotation_degrees = sprite.rotation_degrees
 		grid.action_tile.item = item
 		grid.action_tile.update_action_tile()
+		
+		if GameManager.active_player_id == Network.my_player_id: GameManager.rpc("next_phase")
 	
 	# Reset position
 	position = old_pos

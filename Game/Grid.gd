@@ -85,7 +85,7 @@ func initialize_tiles():
 			
 			get_child(row).get_child(column).initialize(pos, tile_type, tile_rotation, tile_item)
 
-func move_tiles(direction, line_index):
+remotesync func move_tiles(direction, line_index):
 	for i in range(7):
 		var row
 		var column

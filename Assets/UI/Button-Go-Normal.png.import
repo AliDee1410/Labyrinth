@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TileInfo-2.png-f3b0ba02b56c2bc3d24926b0fce4cc25.stex"
+path="res://.import/Button-Go-Normal.png-ee5fa86cb9c3f901ef03ffe0b09ddeaa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileInfo-2.png"
-dest_files=[ "res://.import/TileInfo-2.png-f3b0ba02b56c2bc3d24926b0fce4cc25.stex" ]
+source_file="res://Assets/UI/Button-Go-Normal.png"
+dest_files=[ "res://.import/Button-Go-Normal.png-ee5fa86cb9c3f901ef03ffe0b09ddeaa.stex" ]
 
 [params]
 

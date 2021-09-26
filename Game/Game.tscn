@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Background.png" type="Texture" id=2]
@@ -6,9 +6,16 @@
 [ext_resource path="res://Game/Tile/Tile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Game/Tile/ActionTile.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Game/Tile/ActionTile.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Arrow-Enabled.png" type="Texture" id=7]
-[ext_resource path="res://Assets/Arrow-Disabled.png" type="Texture" id=8]
+[ext_resource path="res://Assets/UI/Arrow-Enabled.png" type="Texture" id=7]
+[ext_resource path="res://Assets/UI/Arrow-Disabled.png" type="Texture" id=8]
 [ext_resource path="res://Game/Arrow.gd" type="Script" id=9]
+[ext_resource path="res://Game/RotateArrows.gd" type="Script" id=10]
+[ext_resource path="res://Assets/UI/Red-Arrow-Left.png" type="Texture" id=11]
+[ext_resource path="res://Assets/UI/Red-Arrow-Right.png" type="Texture" id=12]
+[ext_resource path="res://Assets/UI/Button-Go-Normal.png" type="Texture" id=13]
+[ext_resource path="res://Assets/UI/Button-Go-Pressed.png" type="Texture" id=14]
+[ext_resource path="res://Assets/UI/Button-Go-Hover.png" type="Texture" id=15]
+[ext_resource path="res://Game/TurnButton.gd" type="Script" id=16]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade_Out"
@@ -55,7 +62,6 @@ anims/Fade_Out = SubResource( 1 )
 [node name="Board" type="Node2D" parent="."]
 
 [node name="Background" type="Sprite" parent="Board"]
-position = Vector2( 0.14, 0.14 )
 texture = ExtResource( 2 )
 offset = Vector2( 960, 540 )
 
@@ -238,12 +244,21 @@ position = Vector2( 208, 208 )
 position = Vector2( 1292, 420 )
 script = ExtResource( 6 )
 
-[node name="Arrows" type="Control" parent="Board"]
+[node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -1920.0
+margin_bottom = -1080.0
+
+[node name="GridArrows" type="Control" parent="UI"]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1920.0
+margin_bottom = -1080.0
 rect_scale = Vector2( 3.75, 3.75 )
 
-[node name="ArrowRow1" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow1" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 28.0
 margin_top = 75.0
 margin_right = 35.0
@@ -256,7 +271,7 @@ script = ExtResource( 9 )
 direction = 1
 line_index = 1
 
-[node name="ArrowRow2" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow2" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 28.0
 margin_top = 139.0
 margin_right = 35.0
@@ -269,7 +284,7 @@ script = ExtResource( 9 )
 direction = 1
 line_index = 3
 
-[node name="ArrowRow3" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow3" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 28.0
 margin_top = 203.0
 margin_right = 35.0
@@ -282,7 +297,7 @@ script = ExtResource( 9 )
 direction = 1
 line_index = 5
 
-[node name="ArrowRow4" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow4" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 260.0
 margin_top = 75.0
 margin_right = 267.0
@@ -294,7 +309,7 @@ script = ExtResource( 9 )
 direction = 3
 line_index = 1
 
-[node name="ArrowRow5" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow5" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 260.0
 margin_top = 139.0
 margin_right = 267.0
@@ -306,7 +321,7 @@ script = ExtResource( 9 )
 direction = 3
 line_index = 3
 
-[node name="ArrowRow6" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow6" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 260.0
 margin_top = 203.0
 margin_right = 267.0
@@ -318,7 +333,7 @@ script = ExtResource( 9 )
 direction = 3
 line_index = 5
 
-[node name="ArrowRow7" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow7" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 80.0
 margin_top = 255.0
 margin_right = 87.0001
@@ -330,7 +345,7 @@ texture_disabled = ExtResource( 8 )
 script = ExtResource( 9 )
 line_index = 1
 
-[node name="ArrowRow8" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow8" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 144.0
 margin_top = 255.0
 margin_right = 151.0
@@ -342,7 +357,7 @@ texture_disabled = ExtResource( 8 )
 script = ExtResource( 9 )
 line_index = 3
 
-[node name="ArrowRow9" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow9" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 208.0
 margin_top = 255.0
 margin_right = 215.0
@@ -354,7 +369,7 @@ texture_disabled = ExtResource( 8 )
 script = ExtResource( 9 )
 line_index = 5
 
-[node name="ArrowRow10" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow10" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 80.0
 margin_top = 23.0
 margin_right = 87.0001
@@ -367,7 +382,7 @@ script = ExtResource( 9 )
 direction = 2
 line_index = 1
 
-[node name="ArrowRow11" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow11" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 144.0
 margin_top = 23.0
 margin_right = 151.0
@@ -380,7 +395,7 @@ script = ExtResource( 9 )
 direction = 2
 line_index = 3
 
-[node name="ArrowRow12" type="TextureButton" parent="Board/Arrows"]
+[node name="ArrowRow12" type="TextureButton" parent="UI/GridArrows"]
 margin_left = 208.0
 margin_top = 23.0
 margin_right = 215.0
@@ -392,3 +407,35 @@ texture_disabled = ExtResource( 8 )
 script = ExtResource( 9 )
 direction = 2
 line_index = 5
+
+[node name="RotateArrows" type="Control" parent="UI"]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_scale = Vector2( 6, 6 )
+script = ExtResource( 10 )
+
+[node name="LeftArrow" type="TextureButton" parent="UI/RotateArrows"]
+margin_left = 191.0
+margin_top = 65.0
+margin_right = 201.0
+margin_bottom = 74.0
+texture_normal = ExtResource( 11 )
+
+[node name="RightArrow" type="TextureButton" parent="UI/RotateArrows"]
+margin_left = 230.0
+margin_top = 65.0
+margin_right = 240.0
+margin_bottom = 74.0
+texture_normal = ExtResource( 12 )
+
+[node name="TurnButton" type="TextureButton" parent="UI"]
+margin_left = 1145.18
+margin_top = 745.16
+margin_right = 1193.18
+margin_bottom = 767.16
+rect_scale = Vector2( 3.75, 3.75 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 15 )
+script = ExtResource( 16 )

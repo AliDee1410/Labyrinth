@@ -3,6 +3,7 @@ extends Node
 onready var loading_screen = $CanvasLayer/LoadingScreen
 onready var grid = $Board/Grid
 onready var action_tile = $Board/ActionTile
+onready var turn_button = $UI/TurnButton
 
 func _ready():
 	randomize()
@@ -14,6 +15,7 @@ func _ready():
 		ItemManager.initialize()
 		grid.initialize()
 		action_tile.initialize()
+		turn_button.update_button()
 		# Hide Loading Screen
 		hide_loading_screen()
 		# Retrieve data that needs to be synced
@@ -31,6 +33,7 @@ remote func initialize_game(data):
 	ItemManager.initialize(data["Items"])
 	grid.initialize(data["Grid Tiles"])
 	action_tile.initialize(data["Action Tile"])
+	turn_button.update_button()
 	hide_loading_screen()
 
 func hide_loading_screen():
