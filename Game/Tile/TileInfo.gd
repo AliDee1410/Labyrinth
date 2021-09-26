@@ -12,7 +12,6 @@ func _process(delta):
 	if enabled: global_position = get_global_mouse_position()
 
 func show_info():
-	container.frame = objects.size() - 1
 	visible = true
 	enabled = true
 
@@ -26,7 +25,13 @@ func has_object() -> bool:
 
 func update_tile_info():
 	objects.clear()
+	for sprite in container.get_children():
+		sprite.texture = null
+		
 	if tile.item: objects.append(tile.item[1])
-	for player in tile.players: objects.append(player[1])
+	for player in tile.players.get_children(): objects.append(player.texture)
 	for i in range(objects.size()):
 		container.get_child(i).texture = objects[i]
+		
+	container.frame = objects.size() - 1
+	if !has_object() and visible: hide_info()

@@ -10,13 +10,14 @@ const TILE_TEXTURES = {
 	"Home-Green": preload("res://Assets/Tiles/Home-Green.png"),
 	"Home-Yellow": preload("res://Assets/Tiles/Home-Yellow.png")
 }
-
+const player_scene = preload("res://Game/Player/Player.tscn")
 # DEBUG: Texture not made yet. Using "Yellow Player" texture for now
-const multi_object_texture = preload("res://Assets/Players/Player-Yellow.png")
+const MULTI_OBJ_TEXTURE = preload("res://Assets/Players/Player-Yellow.png")
 
 # Node/Scene References
 onready var sprite = $Sprite
 onready var object_sprite = $ObjectSprite
+onready var players = $Players
 onready var tile_info = $TileInfo
 onready var area2D = $Area2D
 
@@ -27,7 +28,6 @@ var grid_pos: Vector2
 var tile_type: int
 var item
 var directions = []
-var players = [] # Player = [id, texture]
 
 func _ready():
 	area2D.connect("mouse_entered", self, "on_mouse_enter")
@@ -39,8 +39,34 @@ func initialize(pos_in, type_in, rotation_in, item_index_in = null):
 	tile_type = type_in
 	sprite.rotation_degrees = rotation_in
 	if item_index_in: item = ItemManager.ITEMS[item_index_in]
+	if tile_type == grid.TileTypes.HOME: initialize_player()
 	update_tile()
 
+func initialize_player():
+	var player = player_scene.instance()
+	match grid_pos:
+		Vector2(0,0):
+			if GameManager.players.size() > 0:
+				player.name += "Red"
+				player.controller_id = GameManager.players[0]
+				player.texture = player.PLAYER_TEXTURES["Red"]
+		Vector2(6,6):
+			if GameManager.players.size() > 1:
+				player.name += "Blue"
+				player.controller_id = GameManager.players[1]
+				player.texture = player.PLAYER_TEXTURES["Blue"]
+		Vector2(0,6):
+			if GameManager.players.size() > 2:
+				player.name += "Green"
+				player.controller_id = GameManager.players[2]
+				player.texture = player.PLAYER_TEXTURES["Green"]
+		Vector2(6,0):
+			if GameManager.players.size() > 3:
+				player.name += "Yellow"
+				player.controller_id = GameManager.players[3]
+				player.texture = player.PLAYER_TEXTURES["Yellow"]
+	players.add_child(player)
+	
 func update_tile():
 	# Texture
 	match tile_type:
@@ -80,22 +106,22 @@ func update_tile():
 	# Update Objects
 	update_objects()
 
+func update_objects():
+	if item:
+		if players.get_child_count() > 0: object_sprite.texture = MULTI_OBJ_TEXTURE
+		else: object_sprite.texture = item[1]
+	elif players.get_child_count() > 0:
+		if players.get_child_count() > 1: object_sprite.texture = MULTI_OBJ_TEXTURE
+		else: object_sprite.texture = players.get_child(0).texture
+	else: object_sprite.texture = null
+	tile_info.update_tile_info()
+	
 func on_mouse_enter():
 	if tile_info.has_object():
 		tile_info.show_info()
 
 func on_mouse_exit():
 	tile_info.hide_info()
-
-func update_objects():
-	if item:
-		if players.size() > 0: object_sprite.texture = multi_object_texture
-		else: object_sprite.texture = item[1]
-	elif players.size() > 0:
-		if players.size() > 1: object_sprite.texture = multi_object_texture
-		else: object_sprite.texture = players[0][1]
-	else: object_sprite.texture = null
-	tile_info.update_tile_info()
 
 func move_tile(direction, new_tile = null, item_in = null):
 	var old_pos = position

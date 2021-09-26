@@ -14,7 +14,7 @@ const MOVEABLE_TILES = [
 onready var action_tile = get_parent().get_node("ActionTile")
 
 # Fields
-onready var num_players = 2 # TODO: Set to Network.players.size()
+onready var num_players = Network.players.size()
 var tiles = [] # List containing other lists (rows) of tile ids for tiles on the grid
 
 func initialize(tiles_in = null):
