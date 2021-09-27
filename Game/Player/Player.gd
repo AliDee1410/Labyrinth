@@ -18,20 +18,15 @@ func _unhandled_input(event):
 		if controller_id == Network.my_player_id:
 			if event is InputEventKey:
 				if event.pressed and event.scancode == KEY_UP:
-					rpc("move", grid.Directions.UP)
+					rpc("try_move", grid.Directions.UP)
 				elif event.pressed and event.scancode == KEY_RIGHT:
-					rpc("move", grid.Directions.RIGHT)
+					rpc("try_move", grid.Directions.RIGHT)
 				elif event.pressed and event.scancode == KEY_DOWN:
-					rpc("move", grid.Directions.DOWN)
+					rpc("try_move", grid.Directions.DOWN)
 				elif event.pressed and event.scancode == KEY_LEFT:
-					rpc("move", grid.Directions.LEFT)
+					rpc("try_move", grid.Directions.LEFT)
 
-remotesync func move(direction):
-	var player_clone = tile.player_scene.instance()
-	player_clone.name = name
-	player_clone.controller_id = controller_id
-	player_clone.texture = texture
-	
+remotesync func try_move(direction):
 	var next_y
 	var next_x
 	var opp_dir
@@ -57,7 +52,15 @@ remotesync func move(direction):
 	var next_tile = grid.get_child(next_y).get_child(next_x)
 	if tile.directions[direction] == 0 or next_tile.directions[opp_dir] == 0: return
 	
+	move_to(next_tile)
+
+func move_to(next_tile):
+	var player_clone = tile.player_scene.instance()
+	player_clone.name = name
+	player_clone.controller_id = controller_id
+	player_clone.texture = texture
+	
 	next_tile.players.add_child(player_clone)
-	next_tile.update_objects()
 	tile.players.remove_child(self)
+	next_tile.update_objects()
 	tile.update_objects()

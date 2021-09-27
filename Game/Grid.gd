@@ -119,6 +119,7 @@ remotesync func move_tiles(direction, line_index):
 				end_index = 6
 		var new_tile
 		var new_item
+		var new_players
 		if i == end_index:
 			new_tile = [action_tile.tile_type, action_tile.sprite.rotation_degrees]
 			new_item = action_tile.item
@@ -126,4 +127,5 @@ remotesync func move_tiles(direction, line_index):
 			var neighbor = get_child(n_row).get_child(n_column)
 			new_tile = [neighbor.tile_type, neighbor.sprite.rotation_degrees]
 			new_item = neighbor.item
-		get_child(row).get_child(column).move_tile(direction, new_tile, new_item)
+			new_players = neighbor.players.get_children()
+		get_child(row).get_child(column).move_tile(direction, new_tile, new_item, new_players)

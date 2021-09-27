@@ -12,7 +12,12 @@ const TILE_TEXTURES = {
 }
 const player_scene = preload("res://Game/Player/Player.tscn")
 # DEBUG: Texture not made yet. Using "Yellow Player" texture for now
-const MULTI_OBJ_TEXTURE = preload("res://Assets/Players/Player-Yellow.png")
+const MULTI_OBJECTS = {
+	2: preload("res://Assets/Players/Multi-Object-2.png"),
+	3: preload("res://Assets/Players/Multi-Object-3.png"),
+	4: preload("res://Assets/Players/Multi-Object-4.png"),
+	5: preload("res://Assets/Players/Multi-Object-5.png")
+}
 
 # Node/Scene References
 onready var sprite = $Sprite
@@ -108,10 +113,10 @@ func update_tile():
 
 func update_objects():
 	if item:
-		if players.get_child_count() > 0: object_sprite.texture = MULTI_OBJ_TEXTURE
+		if players.get_child_count() > 0: object_sprite.texture = MULTI_OBJECTS[players.get_child_count() + 1]
 		else: object_sprite.texture = item[1]
 	elif players.get_child_count() > 0:
-		if players.get_child_count() > 1: object_sprite.texture = MULTI_OBJ_TEXTURE
+		if players.get_child_count() > 1: object_sprite.texture = MULTI_OBJECTS[players.get_child_count()]
 		else: object_sprite.texture = players.get_child(0).texture
 	else: object_sprite.texture = null
 	tile_info.update_tile_info()
@@ -123,7 +128,7 @@ func on_mouse_enter():
 func on_mouse_exit():
 	tile_info.hide_info()
 
-func move_tile(direction, new_tile = null, item_in = null):
+func move_tile(direction, new_tile = null, item_in = null, players_in = null):
 	var old_pos = position
 	
 	# Move tile
@@ -147,12 +152,25 @@ func move_tile(direction, new_tile = null, item_in = null):
 	
 	# Fall off edge
 	if position.x == -16 or position.y == -16 or position.x == 240 or position.y == 240:
+		# Update action tile
 		grid.action_tile.tile_type = tile_type
 		grid.action_tile.sprite.rotation_degrees = sprite.rotation_degrees
 		grid.action_tile.item = item
 		grid.action_tile.update_action_tile()
 		
+		# Move to next phase (end of "moving" phase)
 		if GameManager.active_player_id == Network.my_player_id: GameManager.rpc("next_phase")
+		
+		# Move player to opposite side
+		if players.get_child_count() > 0:
+			var opp_tile
+			match direction:
+				grid.Directions.UP: opp_tile = grid.get_child(6).get_child(grid_pos.x)
+				grid.Directions.RIGHT: opp_tile = grid.get_child(grid_pos.y).get_child(0)
+				grid.Directions.DOWN: opp_tile = grid.get_child(0).get_child(grid_pos.x)
+				grid.Directions.LEFT: opp_tile = grid.get_child(grid_pos.y).get_child(6)
+			for player in players.get_children():
+				player.move_to(opp_tile)
 	
 	# Reset position
 	position = old_pos
@@ -161,4 +179,7 @@ func move_tile(direction, new_tile = null, item_in = null):
 	tile_type = new_tile[0]
 	sprite.rotation_degrees = new_tile[1]
 	item = item_in
+	if players_in:
+		for new_player in players_in:
+			new_player.move_to(self)
 	update_tile()

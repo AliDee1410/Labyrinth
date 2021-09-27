@@ -11,9 +11,9 @@ func _ready():
 	
 func on_pressed():
 	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.my_player_id:
-		GameManager.rpc("next_phase")
 		grid.rpc("move_tiles", direction, line_index)
 		rpc("set_disabled_arrow")
+		GameManager.rpc("next_phase")
 
 remotesync func set_disabled_arrow():
 	# Enable all arrows first
@@ -33,5 +33,7 @@ remotesync func set_disabled_arrow():
 
 func check_phase():
 	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.my_player_id:
+		visible = true
+	elif GameManager.cur_phase == GameManager.TurnPhases.RotateTile and GameManager.active_player_id == Network.my_player_id and disabled:
 		visible = true
 	elif visible: visible = false

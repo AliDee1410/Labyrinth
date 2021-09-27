@@ -66,13 +66,13 @@ texture = ExtResource( 2 )
 offset = Vector2( 960, 540 )
 
 [node name="Grid" type="Node2D" parent="Board"]
-editor/display_folded = true
 position = Vector2( 120, 120 )
 scale = Vector2( 3.75, 3.75 )
 z_index = 1
 script = ExtResource( 3 )
 
 [node name="Row1" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile1" parent="Board/Grid/Row1" instance=ExtResource( 4 )]
@@ -97,6 +97,7 @@ position = Vector2( 176, 16 )
 position = Vector2( 208, 16 )
 
 [node name="Row2" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile8" parent="Board/Grid/Row2" instance=ExtResource( 4 )]
@@ -121,6 +122,7 @@ position = Vector2( 176, 48 )
 position = Vector2( 208, 48 )
 
 [node name="Row3" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile15" parent="Board/Grid/Row3" instance=ExtResource( 4 )]
@@ -145,6 +147,7 @@ position = Vector2( 176, 80 )
 position = Vector2( 208, 80 )
 
 [node name="Row4" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile22" parent="Board/Grid/Row4" instance=ExtResource( 4 )]
@@ -169,6 +172,7 @@ position = Vector2( 176, 112 )
 position = Vector2( 208, 112 )
 
 [node name="Row5" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile29" parent="Board/Grid/Row5" instance=ExtResource( 4 )]
@@ -193,6 +197,7 @@ position = Vector2( 176, 144 )
 position = Vector2( 208, 144 )
 
 [node name="Row6" type="Node2D" parent="Board/Grid"]
+editor/display_folded = true
 position = Vector2( -1.52588e-005, -1.52588e-005 )
 
 [node name="Tile36" parent="Board/Grid/Row6" instance=ExtResource( 4 )]
