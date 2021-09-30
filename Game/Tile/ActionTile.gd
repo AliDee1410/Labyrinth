@@ -8,7 +8,7 @@ const tile_textures = {
 }
 
 # Node/Scene References
-onready var grid: TileMap = get_parent().get_node("Grid")
+onready var grid = get_parent().get_node("Grid")
 onready var sprite = $Sprite
 onready var object_sprite = $ObjectSprite
 

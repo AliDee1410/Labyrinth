@@ -7,8 +7,8 @@ const MIN_PLAYERS = 2
 
 var network = NetworkedMultiplayerENet.new()
 
-var selected_ip
-var selected_port
+var game_ip
+var game_port
 
 var my_player_id
 var my_player_data = {}
@@ -26,6 +26,7 @@ func _ready():
 func create_server():
 	network.create_server(DEFAULT_PORT, MAX_PLAYERS)
 	get_tree().network_peer = network
+	game_ip = IP.get_local_addresses()[1]
 	print("Server Started")
 	
 	print("Registering myself...")
@@ -42,7 +43,7 @@ remote func register_player(player_id, player_data):
 
 func join_server():
 	print("Joining server...")
-	network.create_client(selected_ip, selected_port)
+	network.create_client(game_ip, game_port)
 	get_tree().network_peer = network
 	
 	print("Registering myself...")
