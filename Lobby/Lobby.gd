@@ -2,11 +2,16 @@ extends Control
 
 onready var player_list = $CenterContainer/VBoxContainer/PlayerList
 onready var start_button = $CenterContainer/VBoxContainer/StartButton
+onready var ip_label = $CenterContainer/VBoxContainer/IPLabel
+onready var port_label = $CenterContainer/VBoxContainer/PortLabel
 
 func _ready():
 	start_button.disabled = false
 	Network.connect("players_updated", self, "update_lobby")
 	if get_tree().is_network_server(): start_button.show()
+	
+	ip_label.text = "Game IP: " + Network.game_ip
+	port_label.text = "Game Port: " + str(Network.DEFAULT_PORT)
 	update_lobby()
 
 func update_lobby():

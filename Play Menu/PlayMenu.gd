@@ -18,8 +18,8 @@ func _on_HostButton_pressed():
 	load_lobby()
 
 func _on_JoinButton_pressed():
-	Network.selected_ip = selected_ip.text
-	Network.selected_port = int(selected_port.text)
+	Network.game_ip = selected_ip.text
+	Network.game_port = int(selected_port.text)
 	Network.join_server()
 	load_lobby()
 	
