@@ -14,19 +14,19 @@ var controller_id
 var texture
 
 func _unhandled_input(event):
-	if GameManager.cur_phase == GameManager.TurnPhases.MovePlayer and GameManager.active_player_id == Network.my_player_id:
-		if controller_id == Network.my_player_id:
+	if GameManager.cur_phase == GameManager.TurnPhases.MovePlayer and GameManager.active_player_id == Network.STEAM_ID:
+		if controller_id == Network.STEAM_ID:
 			if event is InputEventKey:
 				if event.pressed and event.scancode == KEY_UP:
-					rpc("try_move", grid.Directions.UP)
+					Network.remote_sync_func(self, "try_move", [grid.Directions.UP])
 				elif event.pressed and event.scancode == KEY_RIGHT:
-					rpc("try_move", grid.Directions.RIGHT)
+					Network.remote_sync_func(self, "try_move", [grid.Directions.RIGHT])
 				elif event.pressed and event.scancode == KEY_DOWN:
-					rpc("try_move", grid.Directions.DOWN)
+					Network.remote_sync_func(self, "try_move", [grid.Directions.DOWN])
 				elif event.pressed and event.scancode == KEY_LEFT:
-					rpc("try_move", grid.Directions.LEFT)
+					Network.remote_sync_func(self, "try_move", [grid.Directions.LEFT])
 
-remotesync func try_move(direction):
+func try_move(direction):
 	var next_y
 	var next_x
 	var opp_dir

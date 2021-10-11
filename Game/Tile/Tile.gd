@@ -159,7 +159,8 @@ func move_tile(direction, new_tile = null, item_in = null, players_in = null):
 		grid.action_tile.update_action_tile()
 		
 		# Move to next phase (end of "moving" phase)
-		if GameManager.active_player_id == Network.my_player_id: GameManager.rpc("next_phase")
+		if GameManager.active_player_id == Network.STEAM_ID:
+			Network.remote_sync_func(GameManager, "next_phase")
 		
 		# Move player to opposite side
 		if players.get_child_count() > 0:
