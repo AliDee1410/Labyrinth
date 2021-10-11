@@ -135,10 +135,11 @@ func process_packet_data(data):
 	if type == "handshake":
 		var from = Steam.getFriendPersonaName(data["from"])
 		output("Recieved Handshake from " + str(from))
-	elif type == "rpc":
-		var object: Object = data["object"]
-		var function: String = data["function"]
-		object.call(function)
+	elif type == "remote_func":
+		var node = get_node(data["path"])
+		var function = data["function"]
+		var args = data["args"]
+		node.callv(function, args)
 	elif type == "property":
 		var property: String = data["property"]
 		var value = data["value"]
@@ -148,7 +149,30 @@ func is_lobby_host() -> bool:
 	if LOBBY_ID == 0: return false
 	if STEAM_ID == LOBBY_INFO["host"]: return true
 	return false
+
+# Call function on all OTHER connected peers
+func remote_func(node: Node, function: String, args = []):
+	var packet_data = {
+		"type": "remote_func",
+		"path": node.get_path(),
+		"function": function,
+		"args": args
+	}
+	send_p2p_packet("all", packet_data)
 	
+# Call function on ALL connected peers (including myself)
+func remote_sync_func(node: Node, function: String, args = []):
+	var packet_data = {
+		"type": "remote_func",
+		"path": node.get_path(),
+		"function": function,
+		"args": args
+	}
+	send_p2p_packet("all", packet_data)
+	node.callv(function, args)
+
+
+
 # ====================
 # Steam Callbacks
 # ====================

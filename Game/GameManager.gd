@@ -10,14 +10,17 @@ var cur_phase: int
 signal turn_updated
 
 func start_game(players_in = null):
-	if players_in: players = players_in
-	else: for player_id in Network.players: players.append(player_id)
+	if players_in:
+		players = players_in
+	else:
+		for player in Network.LOBBY_MEMBERS:
+			players.append(player["steam_id"])
 	
 	active_player_index = 0
 	active_player_id = players[active_player_index]
 	cur_phase = TurnPhases.Start
 
-remotesync func next_phase():
+func next_phase():
 	cur_phase += 1
 	if cur_phase > TurnPhases.End:
 		next_player()

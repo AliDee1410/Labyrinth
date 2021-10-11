@@ -8,7 +8,7 @@ onready var turn_button = $UI/TurnButton
 func _ready():
 	randomize()
 	loading_screen.visible = true
-	if get_tree().is_network_server():
+	if Network.is_lobby_host():
 		
 		# Setup MY game
 		GameManager.start_game()
@@ -25,10 +25,10 @@ func _ready():
 		data["Grid Tiles"] = grid.tiles
 		data["Action Tile"] = action_tile.tile_type
 		# Tell clients to setup THEIR game using the data above (syncing)
-		rpc("initialize_game", data)
+		Network.remote_func(self, "initialize_game", [data])
 
 # Called by the server, telling clients to load the game with sync data
-remote func initialize_game(data):
+func initialize_game(data):
 	GameManager.start_game(data["Players"])
 	ItemManager.initialize(data["Items"])
 	grid.initialize(data["Grid Tiles"])

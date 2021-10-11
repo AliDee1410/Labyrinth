@@ -23,10 +23,10 @@ func _ready():
 	GameManager.connect("turn_updated", self, "update_button")
 
 func on_pressed():
-	GameManager.rpc("next_phase")
+	Network.remote_sync_func(GameManager, "next_phase")
 
 func update_button():
-	if GameManager.active_player_id == Network.my_player_id:
+	if GameManager.active_player_id == Network.STEAM_ID:
 		match GameManager.cur_phase:
 			GameManager.TurnPhases.Start:
 				texture_normal = BUTTON_TEXTURES["Go"][0]

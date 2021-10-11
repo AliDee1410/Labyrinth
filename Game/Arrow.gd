@@ -10,12 +10,12 @@ func _ready():
 	GameManager.connect("turn_updated", self, "check_phase")
 	
 func on_pressed():
-	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.my_player_id:
-		grid.rpc("move_tiles", direction, line_index)
-		rpc("set_disabled_arrow")
-		GameManager.rpc("next_phase")
+	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.STEAM_ID:
+		Network.remote_sync_func(grid, "move_tiles", [direction, line_index])
+		Network.remote_sync_func(self, "set_disabled_arrow")
+		Network.remote_sync_func(GameManager, "next_phase")
 
-remotesync func set_disabled_arrow():
+func set_disabled_arrow():
 	# Enable all arrows first
 	for arrow in get_parent().get_children():
 		if arrow.disabled: arrow.disabled = false
@@ -32,8 +32,8 @@ remotesync func set_disabled_arrow():
 			arrow.disabled = true
 
 func check_phase():
-	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.my_player_id:
+	if GameManager.cur_phase == GameManager.TurnPhases.MoveMaze and GameManager.active_player_id == Network.STEAM_ID:
 		visible = true
-	elif GameManager.cur_phase == GameManager.TurnPhases.RotateTile and GameManager.active_player_id == Network.my_player_id and disabled:
+	elif GameManager.cur_phase == GameManager.TurnPhases.RotateTile and GameManager.active_player_id == Network.STEAM_ID and disabled:
 		visible = true
 	elif visible: visible = false

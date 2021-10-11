@@ -32,7 +32,7 @@ func _on_LeaveButton_pressed():
 	get_tree().change_scene("res://Play Menu/PlayMenu.tscn")
 
 func _on_StartButton_pressed():
-	Network.send_p2p_packet("all", {"type": "rpc", "object": self, "function": "load_game"})
-
+	Network.remote_sync_func(self, "load_game")
+	
 func load_game():
 	get_tree().change_scene("res://Game/Game.tscn")
