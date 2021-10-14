@@ -31,19 +31,19 @@ onready var grid = get_parent().get_parent()
 # Fields
 var grid_pos: Vector2
 var tile_type: int
-var item
+var item = {}
 var directions = []
 
 func _ready():
 	area2D.connect("mouse_entered", self, "on_mouse_enter")
 	area2D.connect("mouse_exited", self, "on_mouse_exit")
 
-func initialize(pos_in, type_in, rotation_in, item_index_in = null):
+func initialize(pos_in, type_in, rotation_in, item_info_in = {}):
 	# Setup fields
 	grid_pos = pos_in
 	tile_type = type_in
 	sprite.rotation_degrees = rotation_in
-	if item_index_in: item = ItemManager.ITEMS[item_index_in]
+	if item_info_in: item = ItemManager.ITEMS[item_info_in["item_index"]]
 	if tile_type == grid.TileTypes.HOME: initialize_player()
 	update_tile()
 
@@ -114,7 +114,7 @@ func update_tile():
 func update_objects():
 	if item:
 		if players.get_child_count() > 0: object_sprite.texture = MULTI_OBJECTS[players.get_child_count() + 1]
-		else: object_sprite.texture = item[1]
+		else: object_sprite.texture = item["texture"]
 	elif players.get_child_count() > 0:
 		if players.get_child_count() > 1: object_sprite.texture = MULTI_OBJECTS[players.get_child_count()]
 		else: object_sprite.texture = players.get_child(0).texture
@@ -128,7 +128,7 @@ func on_mouse_enter():
 func on_mouse_exit():
 	tile_info.hide_info()
 
-func move_tile(direction, new_tile = null, item_in = null, players_in = null):
+func move_tile(direction, new_tile = null, item_in = {}, players_in = null):
 	var old_pos = position
 	
 	# Move tile

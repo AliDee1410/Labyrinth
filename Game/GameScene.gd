@@ -29,6 +29,7 @@ func _ready():
 
 # Called by the server, telling clients to load the game with sync data
 func initialize_game(data):
+	print(data["Items"])
 	GameManager.start_game(data["Players"])
 	ItemManager.initialize(data["Items"])
 	grid.initialize(data["Grid Tiles"])

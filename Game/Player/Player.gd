@@ -13,6 +13,9 @@ onready var grid = tile.grid
 var controller_id
 var texture
 
+func _ready():
+	GameManager.connect("turn_updated", self, "check_phase")
+
 func _unhandled_input(event):
 	if GameManager.cur_phase == GameManager.TurnPhases.MovePlayer and GameManager.active_player_id == Network.STEAM_ID:
 		if controller_id == Network.STEAM_ID:
@@ -25,7 +28,7 @@ func _unhandled_input(event):
 					Network.remote_sync_func(self, "try_move", [grid.Directions.DOWN])
 				elif event.pressed and event.scancode == KEY_LEFT:
 					Network.remote_sync_func(self, "try_move", [grid.Directions.LEFT])
-
+	
 func try_move(direction):
 	var next_y
 	var next_x
@@ -64,3 +67,16 @@ func move_to(next_tile):
 	tile.players.remove_child(self)
 	next_tile.update_objects()
 	tile.update_objects()
+	queue_free()
+
+func check_phase():
+	if GameManager.cur_phase == GameManager.TurnPhases.End and GameManager.active_player_id == Network.STEAM_ID:
+		if controller_id == Network.STEAM_ID:
+			try_pick_up_item()
+
+func try_pick_up_item():
+	var item = tile.item
+	if item:
+		var cur_goal = ItemManager.tile_items[Network.STEAM_ID][0]
+		if item["name"] == cur_goal["name"]:
+			print("Found my item: " + item["name"])

@@ -1,7 +1,7 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Game/GameScene.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Background.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Grid-2.png" type="Texture" id=2]
 [ext_resource path="res://Game/Grid.gd" type="Script" id=3]
 [ext_resource path="res://Game/Tile/Tile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Game/Tile/ActionTile.tscn" type="PackedScene" id=5]
@@ -16,6 +16,15 @@
 [ext_resource path="res://Assets/UI/Button-Go-Pressed.png" type="Texture" id=14]
 [ext_resource path="res://Assets/UI/Button-Go-Hover.png" type="Texture" id=15]
 [ext_resource path="res://Game/TurnButton.gd" type="Script" id=16]
+[ext_resource path="res://Assets/Card-Back.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-0-Red.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-1-Red.png" type="Texture" id=19]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-3-Red.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-6-Red.png" type="Texture" id=21]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-7-Red.png" type="Texture" id=22]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-5-Red.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-4-Red.png" type="Texture" id=24]
+[ext_resource path="res://Assets/Players/Player Info/Red/Info-2-Red.png" type="Texture" id=25]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade_Out"
@@ -31,6 +40,14 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 25 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 21 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -246,6 +263,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1920.0
 margin_bottom = -1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="GridArrows" type="Control" parent="UI"]
 anchor_right = 1.0
@@ -425,12 +445,64 @@ margin_bottom = 74.0
 texture_normal = ExtResource( 12 )
 
 [node name="TurnButton" type="TextureButton" parent="UI"]
-margin_left = 1145.18
-margin_top = 745.16
-margin_right = 1193.18
-margin_bottom = 767.16
+margin_left = 1200.0
+margin_top = 800.0
+margin_right = 1248.0
+margin_bottom = 822.0
 rect_scale = Vector2( 3.75, 3.75 )
 texture_normal = ExtResource( 13 )
 texture_pressed = ExtResource( 14 )
 texture_hover = ExtResource( 15 )
 script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerCards" type="Control" parent="UI"]
+margin_left = 1624.0
+margin_top = 8.0
+margin_right = 1912.0
+margin_bottom = 1072.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="AnimatedSprite" parent="UI/PlayerCards"]
+position = Vector2( 16, 67 )
+scale = Vector2( 3.75, 3.75 )
+frames = SubResource( 2 )
+
+[node name="Card7" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 906 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card6" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 806 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card5" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 706 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card4" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 606 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card3" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 506 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card2" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 406 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )
+
+[node name="Card1" type="Sprite" parent="UI/PlayerCards"]
+position = Vector2( 54, 306 )
+scale = Vector2( 3.75, 3.75 )
+texture = ExtResource( 17 )

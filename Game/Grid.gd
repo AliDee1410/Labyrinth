@@ -31,7 +31,10 @@ func create_tiles():
 			# Home tiles
 			if (row == 0 or row == 6) and (column == 0 or column == 6):
 				match num_players:
-					1, 2:
+					1:
+						if (row == 0 and column == 0): tile_type = TileTypes.HOME
+						else: tile_type = TileTypes.DISABLED_HOME
+					2:
 						if (row == 0 and column == 0) or (row == 6 and column == 6): tile_type = TileTypes.HOME
 						else: tile_type = TileTypes.DISABLED_HOME
 					3:
@@ -76,14 +79,15 @@ func initialize_tiles():
 			var pos = Vector2(column, row)
 			var tile_type = tiles[row][column][0]
 			var tile_rotation = tiles[row][column][1]
-			var tile_item: int
-			for item_category in ItemManager.tile_items:
-				for item in item_category:
-					var item_index = item[0]
-					var item_pos: Vector2 = item[1]
-					if pos.x == item_pos.x and pos.y == item_pos.y: tile_item = item_index
 			
-			get_child(row).get_child(column).initialize(pos, tile_type, tile_rotation, tile_item)
+			var item_info: Dictionary
+			for id in ItemManager.tile_items:
+				for item in ItemManager.tile_items[id]:
+					var spawn_pos: Vector2 = item["spawn_pos"]
+					if pos.x == spawn_pos.x and pos.y == spawn_pos.y:
+						item_info = item
+			
+			get_child(row).get_child(column).initialize(pos, tile_type, tile_rotation, item_info)
 
 remotesync func move_tiles(direction, line_index):
 	for i in range(7):

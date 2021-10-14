@@ -12,9 +12,9 @@ const BUTTON_TEXTURES = {
 		preload("res://Assets/UI/Button-Done-Hover.png")
 		],
 	"Pass": [
-		preload("res://Assets/UI/Button-Done-Normal.png"),
-		preload("res://Assets/UI/Button-Done-Pressed.png"),
-		preload("res://Assets/UI/Button-Done-Hover.png")
+		preload("res://Assets/UI/Button-Pass-Normal.png"),
+		preload("res://Assets/UI/Button-Pass-Pressed.png"),
+		preload("res://Assets/UI/Button-Pass-Hover.png")
 		]
 }
 

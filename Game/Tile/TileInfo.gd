@@ -28,7 +28,7 @@ func update_tile_info():
 	for sprite in container.get_children():
 		sprite.texture = null
 		
-	if tile.item: objects.append(tile.item[1])
+	if tile.item: objects.append(tile.item["texture"])
 	for player in tile.players.get_children(): objects.append(player.texture)
 	for i in range(objects.size()):
 		container.get_child(i).texture = objects[i]

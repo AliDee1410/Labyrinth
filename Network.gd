@@ -171,8 +171,6 @@ func remote_sync_func(node: Node, function: String, args = []):
 	send_p2p_packet("all", packet_data)
 	node.callv(function, args)
 
-
-
 # ====================
 # Steam Callbacks
 # ====================
