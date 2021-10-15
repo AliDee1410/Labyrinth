@@ -4,6 +4,7 @@ onready var loading_screen = $CanvasLayer/LoadingScreen
 onready var grid = $Board/Grid
 onready var action_tile = $Board/ActionTile
 onready var turn_button = $UI/TurnButton
+onready var player_info = $UI/PlayerInfo
 
 func _ready():
 	randomize()
@@ -16,6 +17,7 @@ func _ready():
 		grid.initialize()
 		action_tile.initialize()
 		turn_button.update_button()
+		player_info.initialize()
 		# Hide Loading Screen
 		hide_loading_screen()
 		# Retrieve data that needs to be synced
@@ -35,6 +37,7 @@ func initialize_game(data):
 	grid.initialize(data["Grid Tiles"])
 	action_tile.initialize(data["Action Tile"])
 	turn_button.update_button()
+	player_info.initialize()
 	hide_loading_screen()
 
 func hide_loading_screen():

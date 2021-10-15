@@ -24,9 +24,14 @@ const ITEMS = [
 	{"name": "Triangle-Orange", "texture": preload("res://Assets/Items/Item-Triangle-Orange.png")},
 	{"name": "Triangle-Pink", "texture": preload("res://Assets/Items/Item-Triangle-Pink.png")},
 	{"name": "Triangle-Red", "texture": preload("res://Assets/Items/Item-Triangle-Red.png")},
-	{"name": "Triangle-Yellow", "texture": preload("res://Assets/Items/Item-Triangle-Yellow.png")}
+	{"name": "Triangle-Yellow", "texture": preload("res://Assets/Items/Item-Triangle-Yellow.png")},
+	
+	{"name": "Circle-Yellow-2", "texture": preload("res://Assets/Items/Item-Circle-Yellow.png")},
+	{"name": "Diamond-Yellow-2", "texture": preload("res://Assets/Items/Item-Diamond-Yellow.png")},
+	{"name": "Square-Yellow-2", "texture": preload("res://Assets/Items/Item-Square-Yellow.png")},
+	{"name": "Triangle-Yellow-2", "texture": preload("res://Assets/Items/Item-Triangle-Yellow.png")}
 ]
-const ITEMS_PER_PLAYER = 6
+const ITEMS_PER_PLAYER = 7
 
 var tile_items = {} # List of lists containing 6 items for each player
 

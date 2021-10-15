@@ -77,6 +77,9 @@ func check_phase():
 func try_pick_up_item():
 	var item = tile.item
 	if item:
-		var cur_goal = ItemManager.tile_items[Network.STEAM_ID][0]
-		if item["name"] == cur_goal["name"]:
-			print("Found my item: " + item["name"])
+		var player_items: Array = ItemManager.tile_items[GameManager.active_player_id]
+		var goal_info = player_items[player_items.size() - 1]
+		var goal_item = ItemManager.ITEMS[goal_info["item_index"]]
+		if item["name"] == goal_item["name"]:
+			player_items.pop_back()
+			ItemManager.tile_items[GameManager.active_player_id] = player_items
