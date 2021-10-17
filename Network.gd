@@ -14,9 +14,10 @@ var ONLINE = false
 
 # Steam Lobby vars
 var LOBBY_ID: int = 0
-var LOBBY_INFO = {"name": "", "host": 0}
+var LOBBY_INFO = {"name": ""}
 var LOBBY_MEMBERS = []
 var LOBBY_INVITE_ARG = false
+var WINNER = null
 
 # Custom signals
 signal members_updated
@@ -91,16 +92,19 @@ func update_lobby_members():
 
 func leave_lobby():
 	if LOBBY_ID != 0:
+		if is_lobby_host() and LOBBY_MEMBERS.size() > 1:
+			set_new_lobby_host()
+			
 		Steam.leaveLobby(LOBBY_ID)
 		LOBBY_ID = 0
 		
 		for member in LOBBY_MEMBERS:
 			if member["steam_id"] != STEAM_ID:
 				Steam.closeP2PSessionWithUser(member["steam_id"])
-				
 		LOBBY_MEMBERS.clear()
+		
 		output("Left lobby " + LOBBY_INFO["name"])
-		LOBBY_INFO = {"name": "", "host": 0}
+		LOBBY_INFO = {"name": ""}
 		update_lobby_members()
 
 func make_p2p_handshake():
@@ -146,10 +150,12 @@ func process_packet_data(data):
 		set(property, value)
 
 func is_lobby_host() -> bool:
-	if LOBBY_ID == 0: return false
-	if STEAM_ID == LOBBY_INFO["host"]: return true
-	return false
+	return STEAM_ID == Steam.getLobbyOwner(LOBBY_ID)
 
+func set_new_lobby_host():
+	var new_host = LOBBY_MEMBERS[1]["steam_id"]
+	Steam.setLobbyOwner(LOBBY_ID, new_host)
+	
 # Call function on all OTHER connected peers
 func remote_func(node: Node, function: String, args = []):
 	var packet_data = {
@@ -171,6 +177,14 @@ func remote_sync_func(node: Node, function: String, args = []):
 	send_p2p_packet("all", packet_data)
 	node.callv(function, args)
 
+# Stops other people from attempting to join this lobby
+func lock_lobby():
+	Steam.setLobbyJoinable(LOBBY_ID, false)
+
+# Allows other people to join this lobby
+func open_lobby():
+	Steam.setLobbyJoinable(LOBBY_ID, true)
+
 # ====================
 # Steam Callbacks
 # ====================
@@ -179,11 +193,10 @@ func on_lobby_created(connect, lobby_id):
 	if connect == 1:
 		LOBBY_ID = lobby_id
 		
-		Steam.setLobbyJoinable(LOBBY_ID, true)
 		Steam.setLobbyData(LOBBY_ID, "name", LOBBY_INFO["name"])
-		Steam.setLobbyData(LOBBY_ID, "host", str(LOBBY_INFO["host"]))
 		Steam.setLobbyData(LOBBY_ID, "is_labyrinth", "yes")
 		Steam.allowP2PPacketRelay(true)
+		open_lobby()
 		
 		var lobby_name = Steam.getLobbyData(LOBBY_ID, "name")
 		output("Created Lobby " + lobby_name)

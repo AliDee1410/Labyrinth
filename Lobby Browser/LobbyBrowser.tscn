@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Lobby Browser/LobbyBrowser.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Roboto-Regular.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
 font_data = ExtResource( 2 )
 
 [node name="LobbyBrowser" type="Control"]
@@ -16,10 +20,10 @@ __meta__ = {
 }
 
 [node name="SteamName" type="Label" parent="."]
-margin_left = 28.0
-margin_top = 42.0
-margin_right = 316.0
-margin_bottom = 99.0
+margin_left = 161.0
+margin_top = 45.0
+margin_right = 449.0
+margin_bottom = 102.0
 custom_fonts/font = SubResource( 1 )
 text = "Steam Name:"
 __meta__ = {
@@ -64,3 +68,30 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="LobbiesPanel/LobbyContainer"]
+
+[node name="BackButton" type="Button" parent="."]
+margin_left = 1610.0
+margin_top = 42.0
+margin_right = 1760.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 150, 70 )
+custom_fonts/font = SubResource( 2 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RefreshButton" type="Button" parent="."]
+margin_left = 1427.93
+margin_top = 42.0
+margin_right = 1587.93
+margin_bottom = 112.0
+rect_min_size = Vector2( 160, 70 )
+custom_fonts/font = SubResource( 2 )
+text = "Refresh"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="RefreshButton" to="." method="_on_RefreshButton_pressed"]

@@ -26,12 +26,14 @@ func update_lobby():
 		player_list.add_item(player["steam_name"], null, false)
 	
 	start_button.visible = Network.is_lobby_host()
+	start_button.disabled = Network.LOBBY_MEMBERS.size() < 2
 
 func _on_LeaveButton_pressed():
 	Network.leave_lobby()
 	get_tree().change_scene("res://Play Menu/PlayMenu.tscn")
 
 func _on_StartButton_pressed():
+	Network.lock_lobby()
 	Network.remote_sync_func(self, "load_game")
 	
 func load_game():

@@ -33,6 +33,7 @@ var grid_pos: Vector2
 var tile_type: int
 var item = {}
 var directions = []
+var player_id = null # Only for HOME tiles
 
 func _ready():
 	area2D.connect("mouse_entered", self, "on_mouse_enter")
@@ -49,27 +50,19 @@ func initialize(pos_in, type_in, rotation_in, item_info_in = {}):
 
 func initialize_player():
 	var player = player_scene.instance()
+	var player_index
 	match grid_pos:
-		Vector2(0,0):
-			if GameManager.players.size() > 0:
-				player.name += "Red"
-				player.controller_id = GameManager.players[0]
-				player.texture = player.PLAYER_TEXTURES["Red"]
-		Vector2(6,6):
-			if GameManager.players.size() > 1:
-				player.name += "Blue"
-				player.controller_id = GameManager.players[1]
-				player.texture = player.PLAYER_TEXTURES["Blue"]
-		Vector2(0,6):
-			if GameManager.players.size() > 2:
-				player.name += "Green"
-				player.controller_id = GameManager.players[2]
-				player.texture = player.PLAYER_TEXTURES["Green"]
-		Vector2(6,0):
-			if GameManager.players.size() > 3:
-				player.name += "Yellow"
-				player.controller_id = GameManager.players[3]
-				player.texture = player.PLAYER_TEXTURES["Yellow"]
+		Vector2(0,0): player_index = 0
+		Vector2(6,6): player_index = 1
+		Vector2(0,6): player_index = 2
+		Vector2(6,0): player_index = 3
+	player_id = GameManager.players[player_index]["steam_id"]
+	
+	var colour = GameManager.players[player_index]["colour"]
+	player.name += colour
+	player.controller_id = player_id
+	player.texture = player.PLAYER_TEXTURES[colour]
+	
 	players.add_child(player)
 	
 func update_tile():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Roboto-Regular.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,7 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "Fade_Out"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -16,13 +17,21 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
 [sub_resource type="DynamicFont" id=3]
+size = 24
 font_data = ExtResource( 2 )
 
 [node name="Lobby" type="Control"]
@@ -62,7 +71,7 @@ anims/Fade_Out = SubResource( 2 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0313726, 0.105882, 0.215686, 1 )
+color = Color( 0.12549, 0.164706, 0.27451, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,24 +85,27 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 860.0
-margin_top = 401.0
+margin_top = 374.0
 margin_right = 1060.0
-margin_bottom = 678.0
+margin_bottom = 705.0
 custom_constants/separation = 15
 alignment = 1
 
 [node name="LobbyName" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_right = 200.0
-margin_bottom = 14.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 4 )
 text = "Lobby Name"
 align = 1
 valign = 1
 
 [node name="PlayerList" type="ItemList" parent="CenterContainer/VBoxContainer"]
-margin_top = 29.0
+margin_top = 53.0
 margin_right = 200.0
-margin_bottom = 182.0
+margin_bottom = 226.0
 rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 5 )
 custom_constants/vseparation = 10
 items = [ "Player 1", null, false, "Player 2", null, false, "Player 3", null, false, "Player 4", null, false ]
 auto_height = true
@@ -102,18 +114,20 @@ fixed_column_width = 200
 icon_mode = 0
 
 [node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 197.0
+margin_top = 241.0
 margin_right = 200.0
-margin_bottom = 237.0
-rect_min_size = Vector2( 0, 40 )
+margin_bottom = 281.0
+rect_min_size = Vector2( 200, 40 )
+size_flags_horizontal = 4
 custom_fonts/font = SubResource( 3 )
 text = "Start Game"
 
 [node name="LeaveButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 252.0
+margin_top = 296.0
 margin_right = 200.0
-margin_bottom = 277.0
-rect_min_size = Vector2( 100, 25 )
+margin_bottom = 331.0
+rect_min_size = Vector2( 200, 25 )
+size_flags_horizontal = 4
 custom_fonts/font = SubResource( 3 )
 text = "Leave"
 

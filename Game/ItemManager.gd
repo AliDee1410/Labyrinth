@@ -82,13 +82,4 @@ func initialize(items_in = null):
 			
 			other_items.append({"item_index": item_index, "spawn_pos": item_pos})
 		tile_items["other_items"] = other_items
-	
-	print(tile_items)
-	# DEBUG: Print Items
-#	for p in range(num_players):
-#		print("Player " + str(Network.LOBBY_MEMBERS[p]["steam_name"]) + " Items")
-#		for item in tile_items[Network.LOBBY_MEMBERS[p]["steam_id"]]:
-#			print(item)
-#	print("Other Items")
-#	for item in tile_items["other_items"]:
-#		print(item)
+		

@@ -11,14 +11,21 @@ func _ready():
 	request_lobby_list()
 
 func request_lobby_list():
+	for lobby in lobby_container.get_children():
+		lobby_container.remove_child(lobby)
 	Steam.addRequestLobbyListDistanceFilter(SEARCH_DISTANCE.Worldwide)
-	print("Searching for lobbies")
 	Steam.requestLobbyList()
-
+	
+func _on_BackButton_pressed():
+	get_tree().change_scene("res://Play Menu/PlayMenu.tscn")
+	
+func _on_RefreshButton_pressed():
+	request_lobby_list()
+	
 # ===============
 # Callbacks
 # ===============
-
+	
 func on_lobby_match_list(lobbies):
 	for lobby_id in lobbies:
 		if Steam.getLobbyData(lobby_id, "is_labyrinth") == "yes":
@@ -32,3 +39,4 @@ func on_lobby_match_list(lobbies):
 			lobby_button.connect("pressed", Network, "join_lobby", [lobby_id])
 			
 			lobby_container.add_child(lobby_button)
+			

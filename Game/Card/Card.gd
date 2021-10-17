@@ -24,4 +24,5 @@ func update_card():
 	if item:
 		sprite.texture = textures["front"]
 		item_sprite.texture = item["texture"]
-	else: sprite.texture = textures["back"]
+	else:
+		sprite.texture = textures["back"]

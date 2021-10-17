@@ -6,7 +6,7 @@ func _ready():
 	visible = false
 	$LeftArrow.connect("pressed", self, "on_left_pressed")
 	$RightArrow.connect("pressed", self, "on_right_pressed")
-	GameManager.connect("turn_updated", self, "check_phase")
+	GameManager.connect("turn_updated", self, "update_arrows")
 
 func on_left_pressed():
 	var rotation = action_tile.sprite.rotation_degrees
@@ -23,7 +23,6 @@ func on_right_pressed():
 func rotate_action_tile(rotation):
 	action_tile.sprite.rotation_degrees = rotation
 
-func check_phase():
-	if GameManager.cur_phase == GameManager.TurnPhases.RotateTile and GameManager.active_player_id == Network.STEAM_ID:
-		visible = true
+func update_arrows():
+	if GameManager.cur_phase == GameManager.TurnPhases.RotateTile and GameManager.active_player_id == Network.STEAM_ID: visible = true
 	elif visible: visible = false

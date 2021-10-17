@@ -1,7 +1,7 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Game/GameScene.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Grid-2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Background.png" type="Texture" id=2]
 [ext_resource path="res://Game/Grid.gd" type="Script" id=3]
 [ext_resource path="res://Game/Tile/Tile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Game/Tile/ActionTile.tscn" type="PackedScene" id=5]
@@ -26,9 +26,16 @@
 [ext_resource path="res://Assets/Players/Player Info/Red/Info-4-Red.png" type="Texture" id=24]
 [ext_resource path="res://Assets/Players/Player Info/Red/Info-2-Red.png" type="Texture" id=25]
 [ext_resource path="res://Game/PlayerInfo.gd" type="Script" id=26]
+[ext_resource path="res://Assets/Roboto-Regular.ttf" type="DynamicFontData" id=27]
+[ext_resource path="res://Game/PauseMenu.gd" type="Script" id=28]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 27 )
+
+[sub_resource type="Animation" id=4]
 resource_name = "Fade_Out"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -36,13 +43,21 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="DynamicFont" id=5]
+size = 64
+font_data = ExtResource( 27 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = ExtResource( 27 )
+
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 25 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 21 ), ExtResource( 22 ) ],
 "loop": true,
@@ -63,17 +78,86 @@ anchor_bottom = 1.0
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/LoadingScreen"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LoadingLabel" type="Label" parent="CanvasLayer/LoadingScreen/CenterContainer"]
-margin_left = 935.0
-margin_top = 533.0
-margin_right = 984.0
-margin_bottom = 547.0
+margin_left = 903.0
+margin_top = 521.0
+margin_right = 1017.0
+margin_bottom = 559.0
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Loading"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/LoadingScreen"]
-anims/Fade_Out = SubResource( 1 )
+anims/Fade_Out = SubResource( 4 )
+
+[node name="PauseMenu" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+script = ExtResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu/CenterContainer"]
+margin_left = 845.0
+margin_top = 367.0
+margin_right = 1075.0
+margin_bottom = 713.0
+custom_constants/separation = 75
+
+[node name="PauseLabel" type="Label" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
+margin_right = 230.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 200, 0 )
+custom_fonts/font = SubResource( 5 )
+text = "Paused"
+align = 1
+valign = 1
+
+[node name="Buttons" type="VBoxContainer" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
+margin_top = 151.0
+margin_right = 230.0
+margin_bottom = 346.0
+custom_constants/separation = 15
+
+[node name="ResumeButton" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons"]
+margin_right = 230.0
+margin_bottom = 55.0
+rect_min_size = Vector2( 230, 55 )
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 6 )
+text = "Resume"
+
+[node name="LeaveButton" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons"]
+margin_top = 70.0
+margin_right = 230.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 230, 55 )
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 6 )
+text = "Leave"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons"]
+margin_top = 140.0
+margin_right = 230.0
+margin_bottom = 195.0
+rect_min_size = Vector2( 230, 55 )
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 6 )
+text = "Quit Game"
 
 [node name="Board" type="Node2D" parent="."]
 
@@ -472,7 +556,7 @@ __meta__ = {
 [node name="ActivePlayer" type="AnimatedSprite" parent="UI/PlayerInfo"]
 position = Vector2( 105, 67 )
 scale = Vector2( 3.75, 3.75 )
-frames = SubResource( 2 )
+frames = SubResource( 7 )
 
 [node name="Cards" type="Node2D" parent="UI/PlayerInfo"]
 
@@ -496,3 +580,7 @@ position = Vector2( 145, 410 )
 
 [node name="Card7" parent="UI/PlayerInfo/Cards" instance=ExtResource( 17 )]
 position = Vector2( 145, 310 )
+
+[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons/ResumeButton" to="CanvasLayer/PauseMenu" method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons/LeaveButton" to="CanvasLayer/PauseMenu" method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/Buttons/QuitButton" to="CanvasLayer/PauseMenu" method="_on_QuitButton_pressed"]

@@ -28,21 +28,11 @@ func on_pressed():
 func update_button():
 	if GameManager.active_player_id == Network.STEAM_ID:
 		match GameManager.cur_phase:
-			GameManager.TurnPhases.Start:
-				texture_normal = BUTTON_TEXTURES["Go"][0]
-				texture_pressed = BUTTON_TEXTURES["Go"][1]
-				texture_hover = BUTTON_TEXTURES["Go"][2]
-				visible = true
 			GameManager.TurnPhases.RotateTile, GameManager.TurnPhases.MovePlayer:
 				texture_normal = BUTTON_TEXTURES["Done"][0]
 				texture_pressed = BUTTON_TEXTURES["Done"][1]
 				texture_hover = BUTTON_TEXTURES["Done"][2]
 				visible = true
-			GameManager.TurnPhases.End:
-				texture_normal = BUTTON_TEXTURES["Pass"][0]
-				texture_pressed = BUTTON_TEXTURES["Pass"][1]
-				texture_hover = BUTTON_TEXTURES["Pass"][2]
-				visible = true
-			GameManager.TurnPhases.MoveMaze, GameManager.TurnPhases.MazeMoving:
+			GameManager.TurnPhases.MoveMaze, GameManager.TurnPhases.MazeMoving, GameManager.TurnPhases.End:
 				visible = false
 	else: visible = false

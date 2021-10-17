@@ -5,6 +5,7 @@ onready var grid = $Board/Grid
 onready var action_tile = $Board/ActionTile
 onready var turn_button = $UI/TurnButton
 onready var player_info = $UI/PlayerInfo
+onready var rotate_arrows = $UI/RotateArrows
 
 func _ready():
 	randomize()
@@ -17,7 +18,8 @@ func _ready():
 		grid.initialize()
 		action_tile.initialize()
 		turn_button.update_button()
-		player_info.initialize()
+		rotate_arrows.update_arrows()
+		player_info.update_info()
 		# Hide Loading Screen
 		hide_loading_screen()
 		# Retrieve data that needs to be synced
@@ -31,13 +33,13 @@ func _ready():
 
 # Called by the server, telling clients to load the game with sync data
 func initialize_game(data):
-	print(data["Items"])
 	GameManager.start_game(data["Players"])
 	ItemManager.initialize(data["Items"])
 	grid.initialize(data["Grid Tiles"])
 	action_tile.initialize(data["Action Tile"])
 	turn_button.update_button()
-	player_info.initialize()
+	rotate_arrows.update_arrows()
+	player_info.update_info()
 	hide_loading_screen()
 
 func hide_loading_screen():

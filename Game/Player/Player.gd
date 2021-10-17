@@ -15,6 +15,7 @@ var texture
 
 func _ready():
 	GameManager.connect("turn_updated", self, "check_phase")
+	GameManager.connect("player_left", self, "on_player_left")
 
 func _unhandled_input(event):
 	if GameManager.cur_phase == GameManager.TurnPhases.MovePlayer and GameManager.active_player_id == Network.STEAM_ID:
@@ -70,16 +71,48 @@ func move_to(next_tile):
 	queue_free()
 
 func check_phase():
-	if GameManager.cur_phase == GameManager.TurnPhases.End and GameManager.active_player_id == Network.STEAM_ID:
-		if controller_id == Network.STEAM_ID:
-			try_pick_up_item()
+	# Called on all clients. No remote function needed
+	if GameManager.cur_phase == GameManager.TurnPhases.End and controller_id == GameManager.active_player_id:
+		check_tile()
 
-func try_pick_up_item():
+# Check tile for picking up items and winning the game
+func check_tile():
 	var item = tile.item
+	var player_items = ItemManager.tile_items[GameManager.active_player_id]
+	var player_info = grid.get_parent().get_parent().get_node("UI/PlayerInfo")
+	
 	if item:
-		var player_items: Array = ItemManager.tile_items[GameManager.active_player_id]
-		var goal_info = player_items[player_items.size() - 1]
-		var goal_item = ItemManager.ITEMS[goal_info["item_index"]]
-		if item["name"] == goal_item["name"]:
-			player_items.pop_back()
-			ItemManager.tile_items[GameManager.active_player_id] = player_items
+		if player_items.size() > 0:
+			var goal_info = player_items[player_items.size() - 1]
+			var goal_item = ItemManager.ITEMS[goal_info["item_index"]]
+			
+			if item["name"] == goal_item["name"]:
+				player_items.pop_back()
+				ItemManager.tile_items[GameManager.active_player_id] = player_items
+				
+				tile.item = {}
+				tile.update_objects()
+				
+				player_info.update_info()
+				
+				# Finish off the end step / pass to next player
+				yield(Utils.create_timer(2), "timeout")
+				
+	elif tile.tile_type == grid.TileTypes.HOME:
+		if player_items.size() == 0:
+			if controller_id == tile.player_id:
+				Network.WINNER = controller_id
+				get_tree().change_scene("res://EndScreen/EndScreen.tscn")
+	
+	# Finish off the end step / pass to next player
+	GameManager.next_phase()
+
+func on_player_left():
+	var controller_absent = true
+	for player in GameManager.players:
+		if player["steam_id"] == controller_id:
+			controller_absent = false
+	if controller_absent:
+		tile.players.remove_child(self)
+		tile.update_objects()
+		queue_free()
