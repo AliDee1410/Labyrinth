@@ -1,5 +1,12 @@
 extends Control
 
+const icon_textures = [
+	preload("res://Assets/Items/Item-Circle-Red.png"),
+	preload("res://Assets/Items/Item-Circle-Blue.png"),
+	preload("res://Assets/Items/Item-Circle-Green.png"),
+	preload("res://Assets/Items/Item-Circle-Yellow.png")
+]
+
 onready var loading_screen = $CanvasLayer/LoadingScreen
 onready var start_button = $CenterContainer/VBoxContainer/StartButton
 onready var lobby_name = $CenterContainer/VBoxContainer/LobbyName
@@ -9,21 +16,18 @@ func _ready():
 	Network.connect("members_updated", self, "update_lobby")
 	Network.connect("successfully_connected", self, "hide_loading_screen")
 	loading_screen.visible = true
-	print("Loaded Lobby scene")
 
 func hide_loading_screen():
-	print("Hiding loading screen")
 	loading_screen.get_node("AnimationPlayer").play("Fade_Out")
 	yield(loading_screen.get_node("AnimationPlayer"), "animation_finished")
 	loading_screen.visible = false
 	
 func update_lobby():
-	print("Updating Lobby scene")
 	lobby_name.text = Network.LOBBY_INFO["name"]
 	
 	player_list.clear()
-	for player in Network.LOBBY_MEMBERS:
-		player_list.add_item(player["steam_name"], null, false)
+	for p in range(Network.LOBBY_MEMBERS.size()):
+		player_list.add_item(Network.LOBBY_MEMBERS[p]["steam_name"], icon_textures[p], false)
 	
 	start_button.visible = Network.is_lobby_host()
 	start_button.disabled = Network.LOBBY_MEMBERS.size() < 2

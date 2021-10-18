@@ -87,7 +87,6 @@ func update_lobby_members():
 		var steam_name = Steam.getFriendPersonaName(steam_id)
 		LOBBY_MEMBERS.append({"steam_id": steam_id, "steam_name": steam_name})
 		
-	print("Lobby members below: " + str(LOBBY_MEMBERS))
 	emit_signal("members_updated")
 
 func leave_lobby():
@@ -108,7 +107,6 @@ func leave_lobby():
 		update_lobby_members()
 
 func make_p2p_handshake():
-	print("Sending P2P handshake to lobby members...")
 	send_p2p_packet("all", {"type": "handshake", "from": STEAM_ID})
 
 func send_p2p_packet(target: String, packet_data: Dictionary):

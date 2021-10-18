@@ -20,7 +20,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Save="*res://Save.gd"
 Network="*res://Network.gd"
 GameManager="*res://Game/GameManager.gd"
 ItemManager="*res://Game/ItemManager.gd"

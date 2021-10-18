@@ -1,8 +1,7 @@
 extends Control
 
 const textures = {
-	"Red":
-	[
+	"Red": [
 		preload("res://Assets/Players/Player Info/Red/Info-0-Red.png"),
 		preload("res://Assets/Players/Player Info/Red/Info-1-Red.png"),
 		preload("res://Assets/Players/Player Info/Red/Info-2-Red.png"),
@@ -12,8 +11,7 @@ const textures = {
 		preload("res://Assets/Players/Player Info/Red/Info-6-Red.png"),
 		preload("res://Assets/Players/Player Info/Red/Info-7-Red.png")
 	],
-	"Blue":
-	[
+	"Blue": [
 		preload("res://Assets/Players/Player Info/Blue/Info-0-Blue.png"),
 		preload("res://Assets/Players/Player Info/Blue/Info-1-Blue.png"),
 		preload("res://Assets/Players/Player Info/Blue/Info-2-Blue.png"),
@@ -23,8 +21,7 @@ const textures = {
 		preload("res://Assets/Players/Player Info/Blue/Info-6-Blue.png"),
 		preload("res://Assets/Players/Player Info/Blue/Info-7-Blue.png")
 	],
-	"Green":
-	[
+	"Green": [
 		preload("res://Assets/Players/Player Info/Green/Info-0-Green.png"),
 		preload("res://Assets/Players/Player Info/Green/Info-1-Green.png"),
 		preload("res://Assets/Players/Player Info/Green/Info-2-Green.png"),
@@ -34,8 +31,7 @@ const textures = {
 		preload("res://Assets/Players/Player Info/Green/Info-6-Green.png"),
 		preload("res://Assets/Players/Player Info/Green/Info-7-Green.png")
 	],
-	"Yellow":
-	[
+	"Yellow": [
 		preload("res://Assets/Players/Player Info/Yellow/Info-0-Yellow.png"),
 		preload("res://Assets/Players/Player Info/Yellow/Info-1-Yellow.png"),
 		preload("res://Assets/Players/Player Info/Yellow/Info-2-Yellow.png"),
@@ -59,24 +55,23 @@ func check_phase():
 		update_info()
 
 func update_info():
-	# Active player
+	# Display active player
 	var frames = SpriteFrames.new()
 	var colour = GameManager.players[GameManager.active_player_index]["colour"]
 	for texture in textures[colour]:
 		frames.add_frame("default", texture)
 	active_player.frames = frames
 	
-	# Number of cards LEFT
-	var player_items = ItemManager.tile_items[GameManager.active_player_id]
-	var num_items_left = ItemManager.ITEMS_PER_PLAYER - player_items.size()
+	# Number of cards left for active player
+	var active_player_items = ItemManager.tile_items[GameManager.active_player_id]
+	var num_items_left = ItemManager.ITEMS_PER_PLAYER - active_player_items.size()
 	active_player.frame = num_items_left
 	
-	# Cards	
+	# Display MY Cards
+	var my_items = ItemManager.tile_items[Network.STEAM_ID]
 	for card in cards.get_children():
 		card.disable()
-		
-	if Network.STEAM_ID == GameManager.active_player_id:
-		for i in range(player_items.size()):
-			if i == (player_items.size() - 1):
-				cards.get_child(i).enable(player_items[i])
-			else: cards.get_child(i).enable()
+	for i in range(my_items.size()):
+		if i == (my_items.size() - 1):
+			cards.get_child(i).enable(my_items[i])
+		else: cards.get_child(i).enable()

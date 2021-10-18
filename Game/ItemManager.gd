@@ -7,33 +7,32 @@ const ITEMS = [
 	{"name": "Circle-Pink", "texture": preload("res://Assets/Items/Item-Circle-Pink.png")},
 	{"name": "Circle-Red", "texture": preload("res://Assets/Items/Item-Circle-Red.png")},
 	{"name": "Circle-Yellow", "texture": preload("res://Assets/Items/Item-Circle-Yellow.png")},
+	{"name": "Circle-Purple", "texture": preload("res://Assets/Items/Item-Circle-Purple.png")},
 	{"name": "Diamond-Blue", "texture": preload("res://Assets/Items/Item-Diamond-Blue.png")},
 	{"name": "Diamond-Green", "texture": preload("res://Assets/Items/Item-Diamond-Green.png")},
 	{"name": "Diamond-Orange", "texture": preload("res://Assets/Items/Item-Diamond-Orange.png")},
 	{"name": "Diamond-Pink", "texture": preload("res://Assets/Items/Item-Diamond-Pink.png")},
 	{"name": "Diamond-Red", "texture": preload("res://Assets/Items/Item-Diamond-Red.png")},
 	{"name": "Diamond-Yellow", "texture": preload("res://Assets/Items/Item-Diamond-Yellow.png")},
+	{"name": "Diamond-Purple", "texture": preload("res://Assets/Items/Item-Diamond-Purple.png")},
 	{"name": "Square-Blue", "texture": preload("res://Assets/Items/Item-Square-Blue.png")},
 	{"name": "Square-Green", "texture": preload("res://Assets/Items/Item-Square-Green.png")},
 	{"name": "Square-Orange", "texture": preload("res://Assets/Items/Item-Square-Orange.png")},
 	{"name": "Square-Pink", "texture": preload("res://Assets/Items/Item-Square-Pink.png")},
 	{"name": "Square-Red", "texture": preload("res://Assets/Items/Item-Square-Red.png")},
 	{"name": "Square-Yellow", "texture": preload("res://Assets/Items/Item-Square-Yellow.png")},
+	{"name": "Square-Purple", "texture": preload("res://Assets/Items/Item-Square-Purple.png")},
 	{"name": "Triangle-Blue", "texture": preload("res://Assets/Items/Item-Triangle-Blue.png")},
 	{"name": "Triangle-Green", "texture": preload("res://Assets/Items/Item-Triangle-Green.png")},
 	{"name": "Triangle-Orange", "texture": preload("res://Assets/Items/Item-Triangle-Orange.png")},
 	{"name": "Triangle-Pink", "texture": preload("res://Assets/Items/Item-Triangle-Pink.png")},
 	{"name": "Triangle-Red", "texture": preload("res://Assets/Items/Item-Triangle-Red.png")},
 	{"name": "Triangle-Yellow", "texture": preload("res://Assets/Items/Item-Triangle-Yellow.png")},
-	
-	{"name": "Circle-Yellow-2", "texture": preload("res://Assets/Items/Item-Circle-Yellow.png")},
-	{"name": "Diamond-Yellow-2", "texture": preload("res://Assets/Items/Item-Diamond-Yellow.png")},
-	{"name": "Square-Yellow-2", "texture": preload("res://Assets/Items/Item-Square-Yellow.png")},
-	{"name": "Triangle-Yellow-2", "texture": preload("res://Assets/Items/Item-Triangle-Yellow.png")}
+	{"name": "Triangle-Purple", "texture": preload("res://Assets/Items/Item-Triangle-Purple.png")}
 ]
 const ITEMS_PER_PLAYER = 7
 
-var tile_items = {} # List of lists containing 6 items for each player
+var tile_items = {}
 
 func initialize(items_in = null):
 	# Get Items

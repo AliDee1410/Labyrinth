@@ -23,14 +23,14 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 32
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
 size = 24
 font_data = ExtResource( 2 )
 
@@ -71,7 +71,7 @@ anims/Fade_Out = SubResource( 2 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.12549, 0.164706, 0.27451, 1 )
+color = Color( 0.156863, 0.196078, 0.380392, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -84,51 +84,51 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 860.0
-margin_top = 374.0
-margin_right = 1060.0
-margin_bottom = 705.0
+margin_left = 870.0
+margin_top = 378.0
+margin_right = 1050.0
+margin_bottom = 701.0
 custom_constants/separation = 15
 alignment = 1
 
 [node name="LobbyName" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 200.0
+margin_right = 180.0
 margin_bottom = 38.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "Lobby Name"
 align = 1
 valign = 1
 
 [node name="PlayerList" type="ItemList" parent="CenterContainer/VBoxContainer"]
 margin_top = 53.0
-margin_right = 200.0
-margin_bottom = 226.0
-rect_min_size = Vector2( 200, 0 )
+margin_right = 180.0
+margin_bottom = 218.0
+rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 4
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_constants/vseparation = 10
+custom_constants/icon_margin = 10
 items = [ "Player 1", null, false, "Player 2", null, false, "Player 3", null, false, "Player 4", null, false ]
 auto_height = true
 same_column_width = true
 fixed_column_width = 200
-icon_mode = 0
 
 [node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 241.0
-margin_right = 200.0
-margin_bottom = 281.0
-rect_min_size = Vector2( 200, 40 )
+margin_top = 233.0
+margin_right = 180.0
+margin_bottom = 273.0
+rect_min_size = Vector2( 180, 40 )
 size_flags_horizontal = 4
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "Start Game"
 
 [node name="LeaveButton" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 296.0
-margin_right = 200.0
-margin_bottom = 331.0
-rect_min_size = Vector2( 200, 25 )
+margin_top = 288.0
+margin_right = 180.0
+margin_bottom = 323.0
+rect_min_size = Vector2( 180, 25 )
 size_flags_horizontal = 4
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "Leave"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]

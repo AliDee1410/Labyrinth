@@ -1,11 +1,12 @@
+"""
+This code is currently not being used in the project,
+but may be useful in the future if I decide to implement a saving system
+"""
 extends Node
 
 const SAVE_FILE = "user://save.json"
 
 var save_data = {}
-
-func _ready():
-	save_data = read_save()
 
 func read_save():
 	var file = File.new()
