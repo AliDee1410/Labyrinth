@@ -71,7 +71,7 @@ anims/Fade_Out = SubResource( 2 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.156863, 0.196078, 0.380392, 1 )
+color = Color( 0.133333, 0.12549, 0.203922, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

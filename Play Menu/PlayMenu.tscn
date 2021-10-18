@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Play Menu/PlayMenu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Roboto-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Labyrinth-Title.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -30,7 +31,10 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.054902, 0.0509804, 0.0509804, 1 )
+color = Color( 0.133333, 0.12549, 0.203922, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -94,6 +98,11 @@ margin_right = 200.0
 margin_bottom = 325.0
 custom_fonts/font = SubResource( 4 )
 text = "Quit"
+
+[node name="Title" type="Sprite" parent="."]
+position = Vector2( 960, 190 )
+scale = Vector2( 7, 7 )
+texture = ExtResource( 3 )
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/CreateLobby/CreateButton" to="." method="_on_CreateButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]

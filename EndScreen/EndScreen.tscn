@@ -7,11 +7,11 @@
 size = 32
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 24
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 24
 font_data = ExtResource( 2 )
 
@@ -19,6 +19,14 @@ font_data = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.133333, 0.12549, 0.203922, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -50,7 +58,7 @@ valign = 1
 margin_top = 53.0
 margin_right = 200.0
 margin_bottom = 82.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "Winner"
 align = 1
 valign = 1
@@ -60,7 +68,7 @@ margin_top = 97.0
 margin_right = 200.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 100, 25 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "Leave"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
